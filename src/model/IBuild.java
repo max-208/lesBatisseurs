@@ -84,13 +84,13 @@ public interface IBuild {
 	boolean addBuilder(IBuilder builder);
 
 	/**
-	 * 
-	 * @return
+	 * verifie si le build est complet ou non
+	 * @return true si le batiment est commplete
 	 */
 	boolean checkCompletion();
 
 	/**
-	 * 
+	 * enleve tout les builders du build
 	 */
 	void removeAllBuilders();
 

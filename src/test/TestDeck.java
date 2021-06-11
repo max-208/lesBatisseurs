@@ -23,7 +23,7 @@ public class TestDeck{
 
     @Test()
     public void testAddGetPickBuilder(){
-        Builder b1 = new Builder(1,BuilderType.apprenti,1,1,1,1);
+        Builder b1 = new Builder(1,BuilderType.Apprenti,1,1,1,1);
         assertTrue(d.addBuilder(b1));
         assertEquals(d.getBuilder(0),b1);
         assertNull(d.getBuilder(1));

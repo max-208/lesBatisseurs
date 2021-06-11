@@ -1,7 +1,7 @@
 package model;
 
 /**
- * le Builder possede ses statistique pour construire un batiment
+ * le Builder possede ses statistique et peut construire un batiment
  */
 public class Builder implements IBuilder {
 
@@ -43,64 +43,63 @@ public class Builder implements IBuilder {
 	 * @param prodSavoir la production en savoir du builder
 	 * @param prodTuille la production en tuile du builder
 	 */
-	public Builder(int prix, BuilderType type, int prodPierre, int prodBois, int prodSavoir, int prodTuille) {
-		// TODO - implement Builder.Builder
-		throw new UnsupportedOperationException();
+	public Builder(int prix, BuilderType type, int prodPierre, int prodBois, int prodSavoir, int prodTuile) {
+		this.prix = prix;
+		this.type = type;
+		this.prodPierre = prodPierre;
+		this.prodBois = prodBois;
+		this.prodSavoir = prodSavoir;
+		this.prodTuile = prodTuile;
+		if(this.type == BuilderType.Machine){
+			this.estOccupe = true;
+		} else {
+			this.estOccupe = false;
+		}
 	}
 
 	@Override
 	public boolean getEstMachine() {
-		// TODO Auto-generated method stub
-		return false;
+		return (this.type == BuilderType.Machine);
 	}
 
 	@Override
 	public boolean getEstOccupe() {
-		// TODO Auto-generated method stub
-		return false;
-
+		return this.estOccupe;
 	}
 
 	@Override
 	public int getPrix() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.prix;
 	}
 
 	@Override
 	public int getProdPierre() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.prodPierre;
 	}
 
 	@Override
 	public int getProdBois() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.prodBois;
 	}
 
 	@Override
 	public int getProdSavoir() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.prodSavoir;
 	}
 
 	@Override
 	public int getProdTuile() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.prodTuile;
 	}
 
 	@Override
 	public BuilderType getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.type;
 	}
 
 	@Override
 	public void setEstOccupe(boolean estOccupe) {
-		// TODO Auto-generated method stub
-		
+		this.estOccupe = estOccupe;
 	}
 
 }

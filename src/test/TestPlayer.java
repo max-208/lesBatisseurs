@@ -50,7 +50,7 @@ public class TestPlayer {
     public void testChantier(){
         assertEquals(p.getPointVictoire(), 0);
         p.cards.addBuild(new Build("manoir", 2, false, 1, 1, 1, 1));
-        p.cards.addBuilder(new Builder(5, BuilderType.apprenti, 1, 1, 1, 1));
+        p.cards.addBuilder(new Builder(5, BuilderType.Apprenti, 1, 1, 1, 1));
         assertTrue(p.ouvrirChantier(p.cards.getBuild(0)));
         assertEquals(p.getAction(), 2);
         assertTrue(p.envoyerTravailler(p.cards.getBuild(0), p.cards.getBuilder(0)));

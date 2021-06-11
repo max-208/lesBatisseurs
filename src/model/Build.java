@@ -55,98 +55,116 @@ public class Build implements IBuild {
 	 * @param coutTuile le cout en tuile du build
 	 */
 	public Build(String nom, int gain, boolean estMachine, int coutPierre, int coutBois, int coutSavoir, int coutTuile) {
-		// TODO - implement Build.Build
-		throw new UnsupportedOperationException();
+		this.nom = nom;
+		this.gain = gain;
+		this.estMachine = estMachine;
+		this.estComplet = false;
+		this.coutPierre = coutPierre;
+		this.coutBois = coutBois;
+		this.coutSavoir = coutSavoir;
+		this.coutTuile = coutTuile;
+		this.builders = new ArrayList<IBuilder>();
 	}
 
 	@Override
 	public String getNom() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.nom;
 	}
 
 	@Override
 	public int getGain() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.gain;
 	}
 
 	@Override
 	public boolean getEstMachine() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.estMachine;
 	}
 
 	@Override
 	public boolean getEstComplet() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.estComplet;
 	}
 
 	@Override
 	public int getCoutPierre() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.coutPierre;
 	}
 
 	@Override
 	public int getCoutBois() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.coutBois;
 	}
 
 	@Override
 	public int getCoutSavoir() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.coutSavoir;
 	}
 
 	@Override
 	public int getCoutTuile() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.coutTuile;
 	}
 
 	@Override
 	public int getWorkedPierre() {
-		// TODO Auto-generated method stub
-		return 0;
+		int ret = 0;
+		for(IBuilder builder : this.builders){
+			ret = ret + builder.getProdPierre();
+		}
+		return ret;
 	}
 
 	@Override
 	public int getWorkedBois() {
-		// TODO Auto-generated method stub
-		return 0;
+		int ret = 0;
+		for(IBuilder builder : this.builders){
+			ret = ret + builder.getProdBois();
+		}
+		return ret;
 	}
 
 	@Override
 	public int getWorkedSavoir() {
-		// TODO Auto-generated method stub
-		return 0;
+		int ret = 0;
+		for(IBuilder builder : this.builders){
+			ret = ret + builder.getProdSavoir();
+		}
+		return ret;
 	}
 
 	@Override
 	public int getWorkedTuile() {
-		// TODO Auto-generated method stub
-		return 0;
+		int ret = 0;
+		for(IBuilder builder : this.builders){
+			ret = ret + builder.getProdTuile();
+		}
+		return ret;
 	}
 
 	@Override
 	public boolean addBuilder(IBuilder builder) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean ret = false;
+		if(builder != null){
+			this.builders.add(builder);
+			ret = true;
+		}
+		return ret;
 	}
 
 	@Override
 	public boolean checkCompletion() {
-		// TODO Auto-generated method stub
-		return false;
+		return (this.getWorkedBois() >= this.coutBois
+		&& this.getWorkedPierre() >= this.coutPierre
+		&& this.getWorkedSavoir() >= this.coutSavoir
+		&& this.getWorkedTuile() >= this.coutTuile);
 	}
 
 	@Override
 	public void removeAllBuilders() {
-		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < this.builders.size(); i++) {
+			this.builders.remove(i);
+		}
 	}
 
 }

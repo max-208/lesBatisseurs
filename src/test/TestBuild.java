@@ -38,14 +38,14 @@ public class TestBuild {
         assertEquals(b.getWorkedBois(),0);
         assertEquals(b.getWorkedSavoir(),0);
         assertEquals(b.getWorkedTuile(),0);
-        Builder b1 = new Builder(1,BuilderType.apprenti,1,1,0,0);
+        Builder b1 = new Builder(1,BuilderType.Apprenti,1,1,0,0);
         b.addBuilder(b1);
         assertFalse(b.getEstComplet());
         assertEquals(b.getWorkedPierre(),1);
         assertEquals(b.getWorkedBois(),1);
         assertEquals(b.getWorkedSavoir(),0);
         assertEquals(b.getWorkedTuile(),0);
-        Builder b2 = new Builder(1,BuilderType.apprenti,0,0,1,1);
+        Builder b2 = new Builder(1,BuilderType.Apprenti,0,0,1,1);
         b.addBuilder(b2);
         assertTrue(b.getEstComplet());
         assertEquals(b.getWorkedPierre(),1);

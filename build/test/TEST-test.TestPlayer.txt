@@ -1,5 +1,5 @@
 Testsuite: test.TestPlayer
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0,015 sec
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0,014 sec
 
 Testcase: initializationError(test.TestPlayer):	Caused an ERROR
 org/hamcrest/SelfDescribing
