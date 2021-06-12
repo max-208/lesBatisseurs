@@ -6,7 +6,8 @@ import model.*;
 
 public class TestBuild {
     Build b;
-    public TestBuild(String name){
+    public TestBuild(){
+        super();
     }
 
     @Before()
@@ -45,12 +46,19 @@ public class TestBuild {
         assertEquals(b.getWorkedBois(),1);
         assertEquals(b.getWorkedSavoir(),0);
         assertEquals(b.getWorkedTuile(),0);
-        Builder b2 = new Builder(1,BuilderType.Apprenti,0,0,1,1);
+        Builder b2 = new Builder(1,BuilderType.Apprenti,0,1,1,0);
         b.addBuilder(b2);
-        assertTrue(b.getEstComplet());
+        assertFalse(b.getEstComplet());
         assertEquals(b.getWorkedPierre(),1);
-        assertEquals(b.getWorkedBois(),1);
+        assertEquals(b.getWorkedBois(),2);
         assertEquals(b.getWorkedSavoir(),1);
-        assertEquals(b.getWorkedTuile(),1);
+        assertEquals(b.getWorkedTuile(),0);
+        Builder b3 = new Builder(1,BuilderType.Apprenti,0,0,1,1);
+        b.addBuilder(b3);
+        assertTrue(b.getEstComplet());
+        assertEquals(b.getWorkedPierre(),0);
+        assertEquals(b.getWorkedBois(),0);
+        assertEquals(b.getWorkedSavoir(),0);
+        assertEquals(b.getWorkedTuile(),0);
     }
 }

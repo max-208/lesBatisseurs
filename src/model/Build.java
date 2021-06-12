@@ -149,6 +149,10 @@ public class Build implements IBuild {
 			this.builders.add(builder);
 			ret = true;
 		}
+		if(this.checkCompletion()){
+			this.removeAllBuilders();
+			this.estComplet = true;
+		}
 		return ret;
 	}
 
@@ -162,7 +166,8 @@ public class Build implements IBuild {
 
 	@Override
 	public void removeAllBuilders() {
-		for (int i = 0; i < this.builders.size(); i++) {
+		for (int i = this.builders.size() - 1; i >= 0 ; i--) {
+			this.builders.get(i).setEstOccupe(false);
 			this.builders.remove(i);
 		}
 	}

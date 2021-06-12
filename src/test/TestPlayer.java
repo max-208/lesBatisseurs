@@ -7,7 +7,8 @@ import model.*;
 public class TestPlayer {
     Player p;
 
-    public TestPlayer(String name){
+    public TestPlayer(){
+        super();
     }
 
     @Before()

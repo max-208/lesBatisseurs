@@ -8,7 +8,8 @@ public class TestDeck{
 
     Deck d;
 
-    public TestDeck(String name){
+    public TestDeck(){
+        super();
     }
 
     @Before()
