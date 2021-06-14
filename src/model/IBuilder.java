@@ -59,4 +59,10 @@ public interface IBuilder {
 	 */
 	void setEstOccupe(boolean estOccupe);
 
+	/**
+	 * recupere l'id unique de la carte
+	 * @return l'id de la carte
+	 */
+	int getId();
+
 }

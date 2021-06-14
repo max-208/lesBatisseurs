@@ -10,22 +10,18 @@ public class Deck {
 	/**
 	 * la liste des builders
 	 */
-	ArrayList<Builder> builders;
-	/**
-	 * la liste des machines
-	 */
-	ArrayList<Machine> machines;
+	HashMap<Integer,IBuilder> builders;
 	/**
 	 * la liste des builds
 	 */
-	ArrayList<Build> builds;
+	HashMap<Integer,IBuild> builds;
 
 	/**
 	 * le constructeur de deck, crées un nouveau deck vide
 	 */
 	public Deck() {
-		// TODO - implement Deck.Deck
-		throw new UnsupportedOperationException();
+		this.builders = new HashMap<Integer,IBuilder>();
+		this.builds = new HashMap<Integer,IBuild>();
 	}
 
 	/**
@@ -33,9 +29,19 @@ public class Deck {
 	 * @param builder le builder a ajouter
 	 * @return true si le builder a pu etre ajouté
 	 */
-	public boolean addBuilder(IBuilder builder) {
-		// TODO - implement Deck.addBuilder
-		throw new UnsupportedOperationException();
+	public boolean addBuilder(IBuilder builder) throws IllegalArgumentException {
+		boolean ret = false;
+		if(builder != null){
+			if(builder.getEstMachine()){
+				ret = this.addMachine((Machine) builder);
+			} else{
+				this.builders.put(builder.getId(), builder);
+				ret = true;
+			}
+		} else {
+			throw new IllegalArgumentException("le builder ne doit pas etre null");
+		}
+		return ret;
 	}
 
 	/**
@@ -44,8 +50,7 @@ public class Deck {
 	 * @return le builder
 	 */
 	public IBuilder getBuilder(int index) {
-		// TODO - implement Deck.getBuilder
-		throw new UnsupportedOperationException();
+		return this.builders.get(index);
 	}
 
 	/**
@@ -54,8 +59,17 @@ public class Deck {
 	 * @return le builder
 	 */
 	public IBuilder pickBuilder(int index) {
-		// TODO - implement Deck.pickBuilder
-		throw new UnsupportedOperationException();
+		IBuilder ret = this.builders.get(index);
+		if(ret != null && ret.getEstMachine()){
+			this.pickMachine(index);
+		} else {
+			this.builders.remove(index);
+		}
+		return ret;
+	}
+
+	public Set<Integer> getBuilderKeys(){
+		return this.builders.keySet();
 	}
 
 	/**
@@ -63,19 +77,16 @@ public class Deck {
 	 * @param machine la machine a ajouter
 	 * @return true si la machine a pu etre ajoutée
 	 */
-	public boolean addMachine(Machine machine) {
-		// TODO - implement Deck.addMachine
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * recupere une machine du deck, sans la supprimer
-	 * @param index l'index de la machine dans le deck
-	 * @return la machine
-	 */
-	public Machine pickMachine(int index) {
-		// TODO - implement Deck.pickMachine
-		throw new UnsupportedOperationException();
+	public boolean addMachine(Machine machine) throws IllegalArgumentException {
+		boolean ret = false;
+		if(machine != null){
+			this.builders.put(machine.getId(), machine);
+			this.builds.put(machine.getId(), machine);
+			ret = true;
+		} else {
+			throw new IllegalArgumentException("la machine ne doit pas etre null");
+		}
+		return ret;
 	}
 
 	/**
@@ -83,9 +94,33 @@ public class Deck {
 	 * @param index l'index de la machine dans le deck
 	 * @return la machine
 	 */
+	public Machine pickMachine(int index) {
+		Machine ret = null;
+		if(this.builders.get(index) != null){
+			boolean estMachine = this.builders.get(index).getEstMachine();
+			if(estMachine){
+				ret = (Machine) this.builders.get(index);
+				this.builders.remove(index);
+				this.builds.remove(index);
+			}
+		}
+		return ret;
+	}
+
+	/**
+	 * recupere une machine du deck, sans la supprimer
+	 * @param index l'index de la machine dans le deck
+	 * @return la machine
+	 */
 	public Machine getMachine(int index) {
-		// TODO - implement Deck.getMachine
-		throw new UnsupportedOperationException();
+		Machine ret = null;
+		if(this.builders.get(index) != null){
+			boolean estMachine = this.builders.get(index).getEstMachine();
+			if(estMachine){
+				ret = (Machine) this.builders.get(index);
+			}
+		}
+		return ret;
 	}
 
 	/**
@@ -93,9 +128,19 @@ public class Deck {
 	 * @param build le build a ajouter au deck
 	 * @return true si le build a pu etre ajouté
 	 */
-	public boolean addBuild(IBuild build) {
-		// TODO - implement Deck.addBuild
-		throw new UnsupportedOperationException();
+	public boolean addBuild(IBuild build) throws IllegalArgumentException {
+		boolean ret = false;
+		if(build != null){
+			if(build.getEstMachine()){
+				ret = this.addMachine((Machine) build);
+			} else{
+				this.builds.put(build.getId(), build);
+				ret = true;
+			}
+		} else {
+			throw new IllegalArgumentException("le build ne doit pas etre null");
+		}
+		return ret;
 	}
 
 	/**
@@ -104,8 +149,7 @@ public class Deck {
 	 * @return le build
 	 */
 	public IBuild getBuild(int index) {
-		// TODO - implement Deck.getBuild
-		throw new UnsupportedOperationException();
+		return this.builds.get(index);
 	}
 
 	/**
@@ -114,8 +158,16 @@ public class Deck {
 	 * @return le build
 	 */
 	public IBuild pickBuild(int index) {
-		// TODO - implement Deck.pickBuild
-		throw new UnsupportedOperationException();
+		IBuild ret = this.builds.get(index);
+		if(ret != null && ret.getEstMachine()){
+			this.pickMachine(index);
+		} else {
+			this.builds.remove(index);
+		}
+		return ret;
 	}
 
+	public Set<Integer> getBuildKeys(){
+		return this.builds.keySet();
+	}
 }

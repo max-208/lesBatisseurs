@@ -28,6 +28,18 @@ public interface IBuild {
 	 * @return true si le build est complet
 	 */
 	boolean getEstComplet();
+
+	/**
+	 * le build est il un chantier
+	 * @return true si le build est en chantier
+	 */
+	boolean getEstChantier();
+
+	/**
+	 * demarre un chantier
+	 * @return true si le chantier a pu etre ouvert
+	 */
+	boolean demarrerChantier();
 	
 	/**
 	 * retourne le cout en pierre du build
@@ -80,6 +92,7 @@ public interface IBuild {
 	/**
 	 * ajoute un builder au chantier
 	 * @param builder
+	 * @return true si le builder a pu etre ajouté
 	 */
 	boolean addBuilder(IBuilder builder);
 
@@ -94,4 +107,26 @@ public interface IBuild {
 	 */
 	void removeAllBuilders();
 
+	/**
+	 * recupere l'id unique de la carte
+	 * @return l'id de la carte
+	 */
+	int getId();
+
+	/**
+	 * recupere le cout d'ajout d'un batisseur
+	 * @return le cout d'ajout d'un batisseur
+	 */
+	int getCoutBatisseur();
+
+	/**
+	 * reinitialise le cout de batisseur a 1
+	 */
+	void resetCoutBatisseur();
+
+	/**
+	 * recupere le gain en ecus du build
+	 * @return le gain en ecus du build
+	 */
+	int getEcus();
 }

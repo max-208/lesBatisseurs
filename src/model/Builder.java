@@ -33,9 +33,14 @@ public class Builder implements IBuilder {
 	 * production en tuile du builder
 	 */
 	private int prodTuile;
+	/**
+	 * id de la carte
+	 */
+	private int id;
 
 	/**
 	 * le constructeur de builder
+	 * @param id l'id du builder
 	 * @param prix le prix pour envoyer ce builder travailler
 	 * @param type le type du builder
 	 * @param prodPierre la production en pierre du builder
@@ -43,7 +48,8 @@ public class Builder implements IBuilder {
 	 * @param prodSavoir la production en savoir du builder
 	 * @param prodTuille la production en tuile du builder
 	 */
-	public Builder(int prix, BuilderType type, int prodPierre, int prodBois, int prodSavoir, int prodTuile) {
+	public Builder(int id,int prix, BuilderType type, int prodPierre, int prodBois, int prodSavoir, int prodTuile) {
+		this.id = id;
 		this.prix = prix;
 		this.type = type;
 		this.prodPierre = prodPierre;
@@ -100,6 +106,11 @@ public class Builder implements IBuilder {
 	@Override
 	public void setEstOccupe(boolean estOccupe) {
 		this.estOccupe = estOccupe;
+	}
+
+	@Override
+	public int getId() {
+		return this.id;
 	}
 
 }

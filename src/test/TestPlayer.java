@@ -44,18 +44,22 @@ public class TestPlayer {
         assertTrue( p.ecuVersAction(1) );
         assertEquals(p.getEcus(), 5);
         assertEquals(p.getAction(), 4);
-        assertFalse( p.actionVersEcu(2) );
+        assertFalse( p.ecuVersAction(2) );
     }
 
     @Test()
     public void testChantier(){
         assertEquals(p.getPointVictoire(), 0);
-        p.cards.addBuild(new Build("manoir", 2, false, 1, 1, 1, 1));
-        p.cards.addBuilder(new Builder(5, BuilderType.Apprenti, 1, 1, 1, 1));
-        assertTrue(p.ouvrirChantier(p.cards.getBuild(0)));
+        assertEquals(p.getEcus(), 10);
+        p.cards.addBuild(new Build(1,"manoir", 3, 2, false, 1, 1, 1, 1));
+        p.cards.addBuilder(new Builder(1,5, BuilderType.Apprenti, 1, 1, 1, 1));
+        p.nouveauTour();
+        assertEquals(p.getAction(), 3);
+        assertTrue(p.ouvrirChantier(p.cards.getBuild(1)));
         assertEquals(p.getAction(), 2);
-        assertTrue(p.envoyerTravailler(p.cards.getBuild(0), p.cards.getBuilder(0)));
+        assertTrue(p.envoyerTravailler(p.cards.getBuild(1), p.cards.getBuilder(1)));
         assertEquals(p.getAction(), 1);
-        assertEquals(p.getPointVictoire(), 1);
+        assertEquals(p.getPointVictoire(), 2);
+        assertEquals(p.getEcus(), 13);
     }
 }

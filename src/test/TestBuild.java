@@ -12,7 +12,7 @@ public class TestBuild {
 
     @Before()
     public void setUp(){
-        b= new Build("Manoir",1,false,1,1,1,1);
+        b= new Build(1,"Manoir",1,1,false,1,1,1,1);
     }
 
     @After()
@@ -39,21 +39,21 @@ public class TestBuild {
         assertEquals(b.getWorkedBois(),0);
         assertEquals(b.getWorkedSavoir(),0);
         assertEquals(b.getWorkedTuile(),0);
-        Builder b1 = new Builder(1,BuilderType.Apprenti,1,1,0,0);
+        Builder b1 = new Builder(1,1,BuilderType.Apprenti,1,1,0,0);
         b.addBuilder(b1);
         assertFalse(b.getEstComplet());
         assertEquals(b.getWorkedPierre(),1);
         assertEquals(b.getWorkedBois(),1);
         assertEquals(b.getWorkedSavoir(),0);
         assertEquals(b.getWorkedTuile(),0);
-        Builder b2 = new Builder(1,BuilderType.Apprenti,0,1,1,0);
+        Builder b2 = new Builder(1,1,BuilderType.Apprenti,0,1,1,0);
         b.addBuilder(b2);
         assertFalse(b.getEstComplet());
         assertEquals(b.getWorkedPierre(),1);
         assertEquals(b.getWorkedBois(),2);
         assertEquals(b.getWorkedSavoir(),1);
         assertEquals(b.getWorkedTuile(),0);
-        Builder b3 = new Builder(1,BuilderType.Apprenti,0,0,1,1);
+        Builder b3 = new Builder(7,1,BuilderType.Apprenti,0,0,1,1);
         b.addBuilder(b3);
         assertTrue(b.getEstComplet());
         assertEquals(b.getWorkedPierre(),0);

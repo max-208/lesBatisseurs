@@ -1,33 +1,32 @@
 Testsuite: test.TestPlayer
-Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0,042 sec
+Tests run: 3, Failures: 2, Errors: 1, Skipped: 0, Time elapsed: 0,021 sec
 
-Testcase: testEcuVersAction(test.TestPlayer):	Caused an ERROR
+Testcase: testEcuVersAction(test.TestPlayer):	FAILED
 null
-java.lang.UnsupportedOperationException
-	at model.Player.<init>(Unknown Source)
-	at test.TestPlayer.setUp(Unknown Source)
+junit.framework.AssertionFailedError
+	at test.TestPlayer.testEcuVersAction(Unknown Source)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:78)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 
 
-Testcase: testActionVersEcus(test.TestPlayer):	Caused an ERROR
+Testcase: testActionVersEcus(test.TestPlayer):	FAILED
 null
-java.lang.UnsupportedOperationException
-	at model.Player.<init>(Unknown Source)
-	at test.TestPlayer.setUp(Unknown Source)
+junit.framework.AssertionFailedError
+	at test.TestPlayer.testActionVersEcus(Unknown Source)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:78)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 
 
 Testcase: testChantier(test.TestPlayer):	Caused an ERROR
-null
-java.lang.UnsupportedOperationException
-	at model.Player.<init>(Unknown Source)
-	at test.TestPlayer.setUp(Unknown Source)
+le build ne doit pas etre null
+java.lang.IllegalArgumentException: le build ne doit pas etre null
+	at model.Deck.addBuild(Unknown Source)
+	at model.Player.ouvrirChantier(Unknown Source)
+	at test.TestPlayer.testChantier(Unknown Source)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:78)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 
 

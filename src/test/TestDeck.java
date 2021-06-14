@@ -24,7 +24,7 @@ public class TestDeck{
 
     @Test()
     public void testAddGetPickBuilder(){
-        Builder b1 = new Builder(1,BuilderType.Apprenti,1,1,1,1);
+        Builder b1 = new Builder(0,1,BuilderType.Apprenti,1,1,1,1);
         assertTrue(d.addBuilder(b1));
         assertEquals(d.getBuilder(0),b1);
         assertNull(d.getBuilder(1));
@@ -35,7 +35,7 @@ public class TestDeck{
     
     @Test()
     public void testAddGetPickBuild(){
-        Build b1 = new Build("manoir",1,false,1,1,1,1);
+        Build b1 = new Build(0,"manoir",1,1,false,1,1,1,1);
         assertTrue(d.addBuild(b1));
         assertEquals(d.getBuild(0),b1);
         assertNull(d.getBuild(1));
@@ -45,7 +45,7 @@ public class TestDeck{
     }
     @Test()
         public void testAddGetPickMachine(){
-            Machine m1 = new Machine("moulin",1,1,1,1,1,1,1,1,1);
+            Machine m1 = new Machine(0,"moulin",1,1,1,1,1,1,1,1,1);
             assertTrue(d.addBuilder(m1));
             assertEquals(d.getBuilder(0),m1);
             assertEquals(d.getBuild(0),m1);

@@ -33,8 +33,11 @@ public class Player {
 	 * @param type the type of the new player
 	 */
 	public Player(PlayerType type) {
-		// TODO - implement Player.Player
-		throw new UnsupportedOperationException();
+		this.type = type;
+		this.action = 0;
+		this.ecus = 10;
+		this.pointVictoire = 0;
+		this.cards = new Deck();
 	}
 
 	/**
@@ -73,28 +76,51 @@ public class Player {
 	 * passes un tour et donne au joueur 3 actions
 	 */
 	public void nouveauTour() {
-		// TODO - implement Player.nouveauTour
-		throw new UnsupportedOperationException();
+		this.action = this.action + 3;
 	}
 
 	/**
-	 * rends une arraylist contenant les batiments du joueur non en chantier, 4 batiments par page
+	 * rends une arraylist contenant les batiments du joueur non complets, 4 batiments par page
 	 * @param page la page a afficher
 	 * @return une arraylist contenant les cartes a afficher
 	 */
 	public ArrayList<IBuild> afficherBatiment(int page) {
-		// TODO - implement Player.afficherBatiment
-		throw new UnsupportedOperationException();
+		ArrayList<IBuild> ret = new ArrayList<IBuild>();
+		Set<Integer> set = this.cards.getBuildKeys();
+		Iterator<Integer> it = set.iterator();
+		int seen = 0;
+		while (it.hasNext() && ret.size() < 4) {
+			int current = it.next();
+			if(this.cards.getBuild(current) != null && !this.cards.getBuild(current).getEstComplet() && !this.cards.getBuild(current).getEstChantier()){
+				if(seen >= page * 4 && seen < page * 4 + 4){
+					ret.add(this.cards.getBuild(current));
+				}
+				seen++;
+			}
+		}
+		return ret;
 	}
 
 	/**
-	 * rends une arraylist contenant les batiments du joueur en chantier et quels batiments sont complet ou non, 4 batiments par page
+	 * rends une arraylist contenant les batiments du joueur en chantier, 4 batiments par page
 	 * @param page la page a afficher
 	 * @return une arraylist contenant les cartes a afficher
 	 */
 	public ArrayList<IBuild> afficherchantiers(int page) {
-		// TODO - implement Player.afficherchantiers
-		throw new UnsupportedOperationException();
+		ArrayList<IBuild> ret = new ArrayList<IBuild>();
+		Set<Integer> set = this.cards.getBuildKeys();
+		Iterator<Integer> it = set.iterator();
+		int seen = 0;
+		while (it.hasNext() && ret.size() < 4) {
+			int current = it.next();
+			if(this.cards.getBuild(current) != null && !this.cards.getBuild(current).getEstComplet() && this.cards.getBuild(current).getEstChantier()){
+				if(seen >= page * 4 && seen < page * 4 + 4){
+					ret.add(this.cards.getBuild(current));
+				}
+				seen++;
+			}
+		}
+		return ret;
 	}
 
 	/**
@@ -103,8 +129,20 @@ public class Player {
 	 * @return une arraylist contenant les cartes a afficher
 	 */
 	public ArrayList<IBuilder> afficherOuvriers(int page) {
-		// TODO - implement Player.afficherOuvriers
-		throw new UnsupportedOperationException();
+		ArrayList<IBuilder> ret = new ArrayList<IBuilder>();
+		Set<Integer> set = this.cards.getBuilderKeys();
+		Iterator<Integer> it = set.iterator();
+		int seen = 0;
+		while (it.hasNext() && ret.size() < 4) {
+			int current = it.next();
+			if(this.cards.getBuilder(current) != null && !this.cards.getBuilder(current).getEstOccupe()){
+				if(seen >= page * 4 && seen < page * 4 + 4){
+					ret.add(this.cards.getBuilder(current));
+				}
+				seen++;
+			}
+		}
+		return ret;
 	}
 
 	/**
@@ -113,8 +151,22 @@ public class Player {
 	 * @return true si le chantier a pu etre construit, false si le batiment n'appartiens pas au joueur ou est deja un chantier ou est terminé
 	 */
 	public boolean ouvrirChantier(IBuild build) {
-		// TODO - implement Player.ouvrirChantier
-		throw new UnsupportedOperationException();
+		boolean ret = false;
+		this.action = this.action - 1;
+		if(this.cards.addBuild(build)){
+			ret = build.demarrerChantier();
+		}
+		return ret;
+	}
+
+	/**
+	 * ouvres un chantier dans un batiment
+	 * @param build le batiment a transformer en chantier
+	 * @return true si le chantier a pu etre construit, false si le batiment n'appartiens pas au joueur ou est deja un chantier ou est terminé
+	 */
+	public boolean recruterOuvrier(IBuilder builder) {
+		this.action = this.action - 1;
+		return this.cards.addBuilder(builder);
 	}
 
 	/**
@@ -123,8 +175,21 @@ public class Player {
 	 * @return true si la transaction a pu etre effectuee
 	 */
 	public boolean actionVersEcu(int nbAction) {
-		// TODO - implement Player.actionVersEcu
-		throw new UnsupportedOperationException();
+		boolean ret = false;
+		if(nbAction == 1 && nbAction <= this.action){
+			this.action = this.action -1;
+			this.ecus = this.ecus + 1;
+			ret = true;
+		} else if(nbAction == 2 && nbAction <= this.action){
+			this.action = this.action -2;
+			this.ecus = this.ecus + 3;
+			ret = true;
+		} else if(nbAction == 3 && nbAction <= this.action){
+			this.action = this.action -3;
+			this.ecus = this.ecus + 6;
+			ret = true;
+		}
+		return ret;
 	}
 
 	/**
@@ -133,8 +198,13 @@ public class Player {
 	 * @return true si la transaction a pu etre effectuee
 	 */
 	public boolean ecuVersAction(int nbAction) {
-		// TODO - implement Player.ecuVersAction
-		throw new UnsupportedOperationException();
+		boolean ret = false;
+		if(nbAction * 5 <= this.ecus){
+			this.ecus = this.ecus - nbAction * 5;
+			this.action = this.action + nbAction;
+			ret = true;
+		}
+		return ret;
 	}
 
 	/**
@@ -144,8 +214,16 @@ public class Player {
 	 * @return true si l'ouvrier a pu etre ajouté au chantier, false si le batiment n'est pas un chantier, l'ouvrier n'est pas libre ou bien pas assez d'actions
 	 */
 	public boolean envoyerTravailler(IBuild build, IBuilder builder) {
-		// TODO - implement Player.envoyerTravailler
-		throw new UnsupportedOperationException();
+		boolean ret = false;
+		if(build != null && builder != null){
+			this.action = this.action - 1;
+			ret = build.addBuilder(builder);
+			if(build.getEstComplet()){
+				this.pointVictoire = this.pointVictoire + build.getGain();
+				this.ecus = this.ecus + build.getEcus();
+			}
+		}
+		return ret;
 	}
 
 }

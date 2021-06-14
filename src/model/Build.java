@@ -20,6 +20,10 @@ public class Build implements IBuild {
 	 */
 	private int gain;
 	/**
+	 * le gain en ecus du build
+	 */
+	private int ecus;
+	/**
 	 * true si le build est une machine
 	 */
 	private boolean estMachine;
@@ -27,6 +31,10 @@ public class Build implements IBuild {
 	 * true si le build est complet
 	 */
 	private boolean estComplet;
+	/**
+	 * true si le build est un chantier
+	 */
+	private boolean estChantier;
 	/**
 	 * le cout en pierre du build
 	 */
@@ -43,10 +51,20 @@ public class Build implements IBuild {
 	 * le cout en tuile du build
 	 */
 	private int coutTuile;
+	/**
+	 * id de la carte
+	 */
+	private int id;
+	/**
+	 * le cout en point d'action pour ajouter un batisseur a ce chantier
+	 */
+	private int coutBatisseur;
 
 	/**
 	 * le constructeur de build, crées un nouveau build
+	 * @param id l'id du build
 	 * @param nom le nom du build
+	 * @param ecus le gain en point de victoire du build
 	 * @param gain le gain en point de victoire du build
 	 * @param estMachine si le build est une machine
 	 * @param coutPierre le cout en pierre du build
@@ -54,11 +72,15 @@ public class Build implements IBuild {
 	 * @param coutSavoir le cout en savoir du build
 	 * @param coutTuile le cout en tuile du build
 	 */
-	public Build(String nom, int gain, boolean estMachine, int coutPierre, int coutBois, int coutSavoir, int coutTuile) {
+	public Build(int id,String nom, int ecus, int gain, boolean estMachine, int coutPierre, int coutBois, int coutSavoir, int coutTuile) {
+		this.id = id;
 		this.nom = nom;
+		this.ecus = ecus;
 		this.gain = gain;
 		this.estMachine = estMachine;
 		this.estComplet = false;
+		this.estChantier = false;
+		this.coutBatisseur = 1;
 		this.coutPierre = coutPierre;
 		this.coutBois = coutBois;
 		this.coutSavoir = coutSavoir;
@@ -84,6 +106,21 @@ public class Build implements IBuild {
 	@Override
 	public boolean getEstComplet() {
 		return this.estComplet;
+	}
+
+	@Override
+	public boolean getEstChantier() {
+		return this.estChantier;
+	}
+
+	@Override
+	public boolean demarrerChantier() {
+		boolean ret = false;
+		if(this.estComplet == false && this.estChantier == false){
+			this.estChantier = true;
+			ret = true;
+		}
+		return ret;
 	}
 
 	@Override
@@ -145,13 +182,17 @@ public class Build implements IBuild {
 	@Override
 	public boolean addBuilder(IBuilder builder) {
 		boolean ret = false;
-		if(builder != null){
-			this.builders.add(builder);
-			ret = true;
-		}
-		if(this.checkCompletion()){
-			this.removeAllBuilders();
-			this.estComplet = true;
+		if(this.estChantier = true){
+			if(builder != null){
+				this.builders.add(builder);
+				this.coutBatisseur = this.coutBatisseur +1;
+				ret = true;
+			}
+			if(this.checkCompletion()){
+				this.removeAllBuilders();
+				this.estComplet = true;
+				this.estChantier = false;
+			}
 		}
 		return ret;
 	}
@@ -170,6 +211,26 @@ public class Build implements IBuild {
 			this.builders.get(i).setEstOccupe(false);
 			this.builders.remove(i);
 		}
+	}
+
+	@Override
+	public int getId() {
+		return this.id;
+	}
+
+	@Override
+	public int getCoutBatisseur() {
+		return this.coutBatisseur;
+	}
+
+	@Override
+	public void resetCoutBatisseur() {
+		this.coutBatisseur = 1;
+	}
+
+	@Override
+	public int getEcus() {
+		return this.ecus;
 	}
 
 }
