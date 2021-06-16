@@ -67,9 +67,9 @@ public class Deck {
 	public IBuilder pickRandomBuilder(){
 		IBuilder ret = null;
 		if(this.builders.size()>0){
-			Integer[] set = (Integer[]) this.builders.keySet().toArray();
-			Integer key = set[new Random().nextInt(set.length)];
-			ret = this.pickBuilder(key);
+			Object[] set = this.builders.keySet().toArray();
+			Object key = set[new Random().nextInt(set.length)];
+			ret = this.pickBuilder((Integer) key);
 		}
 		return ret;
 	}
@@ -176,9 +176,9 @@ public class Deck {
 	public IBuild pickRandomBuild(){
 		IBuild ret = null;
 		if(this.builders.size()>0){
-			Integer[] set = (Integer[]) this.builds.keySet().toArray();
-			Integer key = set[new Random().nextInt(set.length)];
-			ret = this.pickBuild(key);
+			Object[] set = this.builds.keySet().toArray();
+			Object key = set[new Random().nextInt(set.length)];
+			ret = this.pickBuild((Integer) key);
 		}
 		return ret;
 	}
@@ -188,5 +188,50 @@ public class Deck {
 
 	public int getNbBuilders(){
 		return this.builders.size();
+	}
+
+		/**
+	 * rends une arraylist contenant les batiments du joueur non complets, 4 batiments par page
+	 * @param page la page a afficher
+	 * @return une arraylist contenant les cartes a afficher
+	 */
+	public ArrayList<IBuild> afficherBatiment(int page) {
+		ArrayList<IBuild> ret = new ArrayList<IBuild>();
+		Set<Integer> set = this.getBuildKeys();
+		Iterator<Integer> it = set.iterator();
+		int seen = 0;
+		while (it.hasNext() && ret.size() < 6) {
+			int current = it.next();
+			if(this.getBuild(current) != null && !this.getBuild(current).getEstComplet()){
+				if(seen >= page * 6 && seen < page * 6 + 6){
+					ret.add(this.getBuild(current));
+				}
+				seen++;
+			}
+		}
+		return ret;
+	}
+
+
+	/**
+	 * rends une arraylist contenant les ouvriers libres du joueur, 4 ouvriers par page
+	 * @param page la page a afficher
+	 * @return une arraylist contenant les cartes a afficher
+	 */
+	public ArrayList<IBuilder> afficherOuvriers(int page) {
+		ArrayList<IBuilder> ret = new ArrayList<IBuilder>();
+		Set<Integer> set = this.getBuilderKeys();
+		Iterator<Integer> it = set.iterator();
+		int seen = 0;
+		while (it.hasNext() && ret.size() < 6) {
+			int current = it.next();
+			if(this.getBuilder(current) != null && !this.getBuilder(current).getEstOccupe()){
+				if(seen >= page * 6 && seen < page * 6 + 6){
+					ret.add(this.getBuilder(current));
+				}
+				seen++;
+			}
+		}
+		return ret;
 	}
 }

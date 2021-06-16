@@ -13,9 +13,14 @@ public class Game implements IGame {
 	private VisualInterface visualInterface;
 	private int currentId;
 
-	public Game(ArrayList<Player> players,Deck pile,Deck currentCards,VisualInterface visualInterface){
-		
-
+	public Game(ArrayList<Player> players,Deck pile,Deck currentCards,VisualInterface visualInterface, int currentId){
+		this.players = players;
+		this.pile = pile;
+		this.currentCards= currentCards;
+		this.visualInterface = visualInterface;
+		this.currentId = currentId;
+		this.current = this.players.get(this.currentId);
+		this.visualInterface.afficherBatiment(this.currentCards.afficherBatiment(0));
 	}
 
 	public void changeCurrentPlayer() {

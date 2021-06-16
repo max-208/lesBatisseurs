@@ -13,151 +13,62 @@ public class LegacyTerminalInterface implements VisualInterface {
 
     @Override
     public void afficherBatiment(ArrayList<IBuild> builds) {
-        IBuild b1 = builds.get(0);
-        String b1Nom, b1L1, b1L2, b1L3;
-        if (b1 != null) {
-            String gear = " ";
-            if (b1.getEstMachine()) {
-                gear = "M";
+        String[] Nom = new String[6];
+        String[] L1 = new String[6];
+        String[] L2 = new String[6];
+        String[] L3 = new String[6];
+        for(int i = 0; i < 6 ; i++){
+            if(builds != null && builds.size()>i && builds.get(i) != null){
+                IBuild b1 = builds.get(i);
+                String gear = " ";
+                if (b1.getEstMachine()) {
+                    gear = "M";
+                }
+                String travaille = " ";
+                if (b1.getEstChantier()) {
+                    travaille = "T";
+                }
+                String complet = " ";
+                if (b1.getEstComplet()) {
+                    complet = "C";
+                }
+                Nom[i] = String.format(" %-30s", "[" + b1.getId() + "] " + b1.getNom()) + " " + gear + travaille + complet;
+                L1[i]  = String.format("%10s ", "gain ecus") + ":" + String.format(" %-4s", b1.getEcus())
+                        + String.format("%11s ", "gain point") + ":" + String.format(" %-4s", b1.getGain());
+                L2[i] = String.format("%10s ", "pierre") + ":"
+                        + String.format(" %-4s", b1.getWorkedPierre() + "/" + b1.getCoutPierre())
+                        + String.format("%11s ", "bois") + ":"
+                        + String.format(" %-4s", b1.getWorkedBois() + "/" + b1.getCoutBois());
+                L3[i] = String.format("%10s ", "savoir") + ":"
+                        + String.format(" %-4s", b1.getWorkedSavoir() + "/" + b1.getCoutSavoir())
+                        + String.format("%11s ", "tuile") + ":"
+                        + String.format(" %-4s", b1.getWorkedTuile() + "/" + b1.getCoutTuile());
+            } else {
+                Nom[i] = "///////////////////////////////////";
+                L1[i]  = "///////////////////////////////////";
+                L2[i]  = "///////////////////////////////////";
+                L3[i]  = "///////////////////////////////////";
             }
-            String travaille = " ";
-            if (b1.getEstChantier()) {
-                travaille = "T";
-            }
-            String complet = " ";
-            if (b1.getEstComplet()) {
-                complet = "C";
-            }
-            b1Nom = String.format(" %-30s", "[" + b1.getId() + "] " + b1.getNom()) + " " + gear + travaille + complet;
-            b1L1 = String.format("%10s ", "gain ecus") + ":" + String.format(" %-4s", b1.getEcus())
-                    + String.format("%11s ", "gain point") + ":" + String.format(" %-4s", b1.getGain());
-            b1L2 = String.format("%10s ", "pierre") + ":"
-                    + String.format(" %-4s", b1.getWorkedPierre() + "/" + b1.getCoutPierre())
-                    + String.format("%11s ", "bois") + ":"
-                    + String.format(" %-4s", b1.getWorkedBois() + "/" + b1.getCoutBois());
-            b1L3 = String.format("%10s ", "savoir") + ":"
-                    + String.format(" %-4s", b1.getWorkedSavoir() + "/" + b1.getCoutSavoir())
-                    + String.format("%11s ", "tuile") + ":"
-                    + String.format(" %-4s", b1.getWorkedTuile() + "/" + b1.getCoutTuile());
-        } else {
-            b1Nom = "///////////////////////////////////";
-            b1L1 = "///////////////////////////////////";
-            b1L2 = "///////////////////////////////////";
-            b1L3 = "///////////////////////////////////";
         }
-
-        IBuild b2 = builds.get(1);
-        String b2Nom, b2L1, b2L2, b2L3;
-        if (b2 != null) {
-            String gear = " ";
-            if (b2.getEstMachine()) {
-                gear = "M";
-            }
-            String travaille = " ";
-            if (b2.getEstChantier()) {
-                travaille = "T";
-            }
-            String complet = " ";
-            if (b2.getEstComplet()) {
-                complet = "C";
-            }
-            b2Nom = String.format(" %-30s", "[" + b2.getId() + "] " + b2.getNom()) + " " + gear + travaille + complet;
-            b2L1 = String.format("%10s ", "gain ecus") + ":" + String.format(" %-4s", b2.getEcus())
-                    + String.format("%11s ", "gain point") + ":" + String.format(" %-4s", b2.getGain());
-            b2L2 = String.format("%10s ", "pierre") + ":"
-                    + String.format(" %-4s", b2.getWorkedPierre() + "/" + b2.getCoutPierre())
-                    + String.format("%11s ", "bois") + ":"
-                    + String.format(" %-4s", b2.getWorkedBois() + "/" + b2.getCoutBois());
-            b2L3 = String.format("%10s ", "savoir") + ":"
-                    + String.format(" %-4s", b2.getWorkedSavoir() + "/" + b2.getCoutSavoir())
-                    + String.format("%11s ", "tuile") + ":"
-                    + String.format(" %-4s", b2.getWorkedTuile() + "/" + b2.getCoutTuile());
-        } else {
-            b2Nom = "///////////////////////////////////";
-            b2L1 = "///////////////////////////////////";
-            b2L2 = "///////////////////////////////////";
-            b2L3 = "///////////////////////////////////";
-        }
-
-        IBuild b3 = builds.get(2);
-        String b3Nom, b3L1, b3L2, b3L3;
-        if (b3 != null) {
-            String gear = " ";
-            if (b3.getEstMachine()) {
-                gear = "M";
-            }
-            String travaille = " ";
-            if (b3.getEstChantier()) {
-                travaille = "T";
-            }
-            String complet = " ";
-            if (b3.getEstComplet()) {
-                complet = "C";
-            }
-            b3Nom = String.format(" %-30s", "[" + b3.getId() + "] " + b3.getNom()) + " " + gear + travaille + complet;
-            b3L1 = String.format("%10s ", "gain ecus") + ":" + String.format(" %-4s", b3.getEcus())
-                    + String.format("%11s ", "gain point") + ":" + String.format(" %-4s", b3.getGain());
-            b3L2 = String.format("%10s ", "pierre") + ":"
-                    + String.format(" %-4s", b3.getWorkedPierre() + "/" + b3.getCoutPierre())
-                    + String.format("%11s ", "bois") + ":"
-                    + String.format(" %-4s", b3.getWorkedBois() + "/" + b3.getCoutBois());
-            b3L3 = String.format("%10s ", "savoir") + ":"
-                    + String.format(" %-4s", b3.getWorkedSavoir() + "/" + b3.getCoutSavoir())
-                    + String.format("%11s ", "tuile") + ":"
-                    + String.format(" %-4s", b3.getWorkedTuile() + "/" + b3.getCoutTuile());
-        } else {
-            b3Nom = "///////////////////////////////////";
-            b3L1 = "///////////////////////////////////";
-            b3L2 = "///////////////////////////////////";
-            b3L3 = "///////////////////////////////////";
-        }
-
-        IBuild b4 = builds.get(3);
-        String b4Nom, b4L1, b4L2, b4L3;
-        if (b4 != null) {
-            String gear = " ";
-            if (b4.getEstMachine()) {
-                gear = "M";
-            }
-            String travaille = " ";
-            if (b4.getEstChantier()) {
-                travaille = "T";
-            }
-            String complet = " ";
-            if (b4.getEstComplet()) {
-                complet = "C";
-            }
-            b4Nom = String.format(" %-30s", "[" + b4.getId() + "] " + b4.getNom()) + " " + gear + travaille + complet;
-            b4L1 = String.format("%10s ", "gain ecus") + ":" + String.format(" %-4s", b4.getEcus())
-                    + String.format("%11s ", "gain point") + ":" + String.format(" %-4s", b4.getGain());
-            b4L2 = String.format("%10s ", "pierre") + ":"
-                    + String.format(" %-4s", b4.getWorkedPierre() + "/" + b4.getCoutPierre())
-                    + String.format("%11s ", "bois") + ":"
-                    + String.format(" %-4s", b4.getWorkedBois() + "/" + b4.getCoutBois());
-            b4L3 = String.format("%10s ", "savoir") + ":"
-                    + String.format(" %-4s", b4.getWorkedSavoir() + "/" + b4.getCoutSavoir())
-                    + String.format("%11s ", "tuile") + ":"
-                    + String.format(" %-4s", b4.getWorkedTuile() + "/" + b4.getCoutTuile());
-        } else {
-            b4Nom = "///////////////////////////////////";
-            b4L1 = "///////////////////////////////////";
-            b4L2 = "///////////////////////////////////";
-            b4L3 = "///////////////////////////////////";
-        }
-
         System.out.println("/---------------------------------------------------------------------------------------------\\");
         System.out.println("|                                    [afficher batiments]                                     |");
-        System.out.println( "|       /-------------------------------------\\ /-------------------------------------\\       |");
-        System.out.println("|       | " + b1Nom + " | | " + b2Nom + " |       |");
-        System.out.println("|    /| | " + b1L1 + " | | " + b2L1 + " | |\\    |");
-        System.out.println("|   / | | " + b1L2 + " | | " + b2L2 + " | | \\   |");
-        System.out.println("|  /  | | " + b1L3 + " | | " + b2L3 + " | |  \\  |");
-        System.out.println("| / L | \\-------------------------------------/ \\-------------------------------------/ | R \\ |");
-        System.out.println("| \\   | /-------------------------------------\\ /-------------------------------------\\ |   / |");
-        System.out.println("|  \\  | | " + b3Nom + " | | " + b4Nom + " | |  /  |");
-        System.out.println("|   \\ | | " + b3L1 + " | | " + b4L1 + " | | /   |");
-        System.out.println("|    \\| | " + b3L2 + " | | " + b4L2 + " | |/    |");
-        System.out.println("|       | " + b3L3 + " | | " + b4L3 + " |       |");
+        System.out.println("|       /-------------------------------------\\ /-------------------------------------\\       |");
+        System.out.println("|       | " +          Nom[0]             + " | | " +          Nom[1]             + " |       |");
+        System.out.println("|       | " +          L1[0]              + " | | " +          L1[1]              + " |       |");
+        System.out.println("|       | " +          L2[0]              + " | | " +          L2[1]              + " |       |");
+        System.out.println("|       | " +          L3[0]              + " | | " +          L3[1]              + " |       |");
+        System.out.println("|    /| \\-------------------------------------/ \\-------------------------------------/ |\\    |");
+        System.out.println("|   / | /-------------------------------------\\ /-------------------------------------\\ | \\   |");
+        System.out.println("|  /  | | " +           Nom[2]             + " | | " +           Nom[3]             + " | |  \\  |");
+        System.out.println("| / L | | " +           L1[2]              + " | | " +           L1[3]              + " | | R \\ |");
+        System.out.println("| \\   | | " +          L2[2]               + " | | " +          L2[3]               + " | |   / |");
+        System.out.println("|  \\  | | " +          L3[2]               + " | | " +          L3[3]               + " | |  /  |");
+        System.out.println("|   \\ | \\-------------------------------------/ \\-------------------------------------/ | /   |");
+        System.out.println("|    \\| /-------------------------------------\\ /-------------------------------------\\ |/    |");
+        System.out.println("|       | " +          Nom[4]             + " | | " +          Nom[5]             + " |       |");
+        System.out.println("|       | " +          L1[4]              + " | | " +          L1[5]              + " |       |");
+        System.out.println("|       | " +          L2[4]              + " | | " +          L2[5]              + " |       |");
+        System.out.println("|       | " +          L3[4]              + " | | " +          L3[5]              + " |       |");
         System.out.println("|       \\-------------------------------------/ \\-------------------------------------/       |");
         System.out.println( "|       [ legende: [0] id de la carte  ,  M  machine  ,  T  en chantier  ,  C  complet ]      |");
         System.out.println("\\---------------------------------------------------------------------------------------------/");
@@ -166,108 +77,53 @@ public class LegacyTerminalInterface implements VisualInterface {
     
     @Override
     public void afficherOuvriers(ArrayList<IBuilder> builders) {
-        IBuilder b1 = builders.get(0);
-        String b1Nom,b1L1,b1L2,b1L3;
-        if(b1 != null){
-            String gear = " ";
-            if(b1.getEstMachine()){
-                gear = "M";
+        String[] Nom = new String[6];
+        String[] L1 = new String[6];
+        String[] L2 = new String[6];
+        String[] L3 = new String[6];
+        for(int i = 0; i < 6 ; i++){
+                if(builders != null && builders.size()>i && builders.get(i) != null){
+                IBuilder b1 = builders.get(0);
+                String gear = " ";
+                if(b1.getEstMachine()){
+                    gear = "M";
+                }
+                String travaille = " ";
+                if(b1.getEstOccupe()){
+                    travaille = "T";
+                }
+                Nom[i] = String.format(" %-31s","[" + b1.getId() + "] " + b1.getType())+ " " + gear + travaille ;
+                L1[i]  = String.format("%10s ","prix ecus") + ":" + String.format(" %-4s",b1.getPrix()) + "                  ";
+                L2[i]  = String.format("%10s ","pierre") + ":" + String.format(" %-4s",b1.getProdPierre()) + String.format("%11s ","bois") + ":" + String.format(" %-4s",b1.getProdBois());
+                L3[i]  = String.format("%10s ","savoir") + ":" + String.format(" %-4s",b1.getProdSavoir() ) + String.format("%11s ","tuile") + ":" + String.format(" %-4s",b1.getProdTuile());
+            } else {
+                Nom[i] = "///////////////////////////////////";
+                L1[i]  = "///////////////////////////////////";
+                L2[i]  = "///////////////////////////////////";
+                L3[i]  = "///////////////////////////////////";
             }
-            String travaille = " ";
-            if(b1.getEstOccupe()){
-                travaille = "T";
-            }
-            b1Nom = String.format(" %-31s","[" + b1.getId() + "] " + b1.getType())+ " " + gear + travaille ;
-            b1L1 = String.format("%10s ","prix ecus") + ":" + String.format(" %-4s",b1.getPrix()) + "                  ";
-            b1L2 = String.format("%10s ","pierre") + ":" + String.format(" %-4s",b1.getProdPierre()) + String.format("%11s ","bois") + ":" + String.format(" %-4s",b1.getProdBois());
-            b1L3 = String.format("%10s ","savoir") + ":" + String.format(" %-4s",b1.getProdSavoir() ) + String.format("%11s ","tuile") + ":" + String.format(" %-4s",b1.getProdTuile());
-        } else {
-            b1Nom= "///////////////////////////////////";
-            b1L1 = "///////////////////////////////////";
-            b1L2 = "///////////////////////////////////";
-            b1L3 = "///////////////////////////////////";
-        }
-    
-        IBuilder b2 = builders.get(1);
-        String b2Nom,b2L1,b2L2,b2L3;
-        if(b2 != null){
-            String gear = " ";
-            if(b2.getEstMachine()){
-                gear = "M";
-            }
-            String travaille = " ";
-            if(b2.getEstOccupe()){
-                travaille = "T";
-            }
-            b2Nom = String.format(" %-31s","[" + b2.getId() + "] " + b2.getType())+ " " + gear + travaille ;
-            b2L1 = String.format("%10s ","prix ecus") + ":" + String.format(" %-4s",b2.getPrix()) + "                  ";
-            b2L2 = String.format("%10s ","pierre") + ":" + String.format(" %-4s",b2.getProdPierre()) + String.format("%11s ","bois") + ":" + String.format(" %-4s",b2.getProdBois());
-            b2L3 = String.format("%10s ","savoir") + ":" + String.format(" %-4s",b2.getProdSavoir() ) + String.format("%11s ","tuile") + ":" + String.format(" %-4s",b2.getProdTuile());
-        } else {
-            b2Nom= "///////////////////////////////////";
-            b2L1 = "///////////////////////////////////";
-            b2L2 = "///////////////////////////////////";
-            b2L3 = "///////////////////////////////////";
-        }
-    
-        IBuilder b3 = builders.get(2);
-        String b3Nom,b3L1,b3L2,b3L3;
-        if(b3 != null){
-            String gear = "T";
-            if(b3.getEstMachine()){
-                gear = "M";
-            }
-            String travaille = " ";
-            if(b3.getEstOccupe()){
-                travaille = "T";
-            }
-            b3Nom = String.format(" %-31s","[" + b3.getId() + "]\u001B[0m " + b3.getType())+ " " + gear + travaille ;
-            b3L1 = String.format("%10s ","prix ecus") + ":" + String.format(" %-4s",b3.getPrix()) + "                  ";
-            b3L2 = String.format("%10s ","pierre") + ":" + String.format(" %-4s",b3.getProdPierre()) + String.format("%11s ","bois") + ":" + String.format(" %-4s",b3.getProdBois());
-            b3L3 = String.format("%10s ","savoir") + ":" + String.format(" %-4s",b3.getProdSavoir() ) + String.format("%11s ","tuile") + ":" + String.format(" %-4s",b3.getProdTuile());
-        } else {
-            b3Nom= "///////////////////////////////////";
-            b3L1 = "///////////////////////////////////";
-            b3L2 = "///////////////////////////////////";
-            b3L3 = "///////////////////////////////////";
-        }
-    
-        IBuilder b4 = builders.get(3);
-        String b4Nom,b4L1,b4L2,b4L3;
-        if(b4 != null){
-            String gear = " ";
-            if(b4.getEstMachine()){
-                gear = "M";
-            }
-            String travaille = " ";
-            if(b4.getEstOccupe()){
-                travaille = "T";
-            }
-            b4Nom = String.format(" %-31s","[" + b4.getId() + "] " + b4.getType())+ " " + gear + travaille ;
-            b4L1 = String.format("%10s ","prix ecus") + ":" + String.format(" %-4s",b4.getPrix())  + "                  ";
-            b4L2 = String.format("%10s ","pierre") + ":" + String.format(" %-4s",b4.getProdPierre()) + String.format("%11s ","bois") + ":" + String.format(" %-4s",b4.getProdBois());
-            b4L3 = String.format("%10s ","savoir") + ":" + String.format(" %-4s",b4.getProdSavoir() ) + String.format("%11s ","tuile") + ":" + String.format(" %-4s",b4.getProdTuile());
-        } else {
-            b4Nom= "///////////////////////////////////";
-            b4L1 = "///////////////////////////////////";
-            b4L2 = "///////////////////////////////////";
-            b4L3 = "///////////////////////////////////";
         }
         
     
         System.out.println("/---------------------------------------------------------------------------------------------\\");
         System.out.println("|                                    [afficher batiments]                                     |");
         System.out.println("|       /-------------------------------------\\ /-------------------------------------\\       |");
-        System.out.println("|       | " +           b1Nom             + " | | " +           b2Nom             + " |       |");
-        System.out.println("|    /| | " +           b1L1              + " | | " +           b2L1              + " | |\\    |");
-        System.out.println("|   / | | " +           b1L2              + " | | " +           b2L2              + " | | \\   |");
-        System.out.println("|  /  | | " +           b1L3              + " | | " +           b2L3              + " | |  \\  |");
-        System.out.println("| / L | \\-------------------------------------/ \\-------------------------------------/ | R \\ |");
-        System.out.println("| \\   | /-------------------------------------\\ /-------------------------------------\\ |   / |");
-        System.out.println("|  \\  | | " +           b3Nom             + " | | " +           b4Nom             + " | |  /  |");
-        System.out.println("|   \\ | | " +           b3L1              + " | | " +           b4L1              + " | | /   |");
-        System.out.println("|    \\| | " +           b3L2              + " | | " +           b4L2              + " | |/    |");
-        System.out.println("|       | " +           b3L3              + " | | " +           b4L3              + " |       |");
+        System.out.println("|       | " +          Nom[0]             + " | | " +          Nom[1]             + " |       |");
+        System.out.println("|       | " +          L1[0]              + " | | " +          L1[1]              + " |       |");
+        System.out.println("|       | " +          L2[0]              + " | | " +          L2[1]              + " |       |");
+        System.out.println("|       | " +          L3[0]              + " | | " +          L3[1]              + " |       |");
+        System.out.println("|    /| \\-------------------------------------/ \\-------------------------------------/ |\\    |");
+        System.out.println("|   / | /-------------------------------------\\ /-------------------------------------\\ | \\   |");
+        System.out.println("|  /  | | " +           Nom[2]             + " | | " +           Nom[3]             + " | |  \\  |");
+        System.out.println("| / L | | " +           L1[2]              + " | | " +           L1[3]              + " | | R \\ |");
+        System.out.println("| \\   | | " +          L2[2]               + " | | " +          L2[3]               + " | |   / |");
+        System.out.println("|  \\  | | " +          L3[2]               + " | | " +          L3[3]               + " | |  /  |");
+        System.out.println("|   \\ | \\-------------------------------------/ \\-------------------------------------/ | /   |");
+        System.out.println("|    \\| /-------------------------------------\\ /-------------------------------------\\ |/    |");
+        System.out.println("|       | " +          Nom[4]             + " | | " +          Nom[5]             + " |       |");
+        System.out.println("|       | " +          L1[4]              + " | | " +          L1[5]              + " |       |");
+        System.out.println("|       | " +          L2[4]              + " | | " +          L2[5]              + " |       |");
+        System.out.println("|       | " +          L3[4]              + " | | " +          L3[5]              + " |       |");
         System.out.println("|       \\-------------------------------------/ \\-------------------------------------/       |");
         System.out.println("|       [   legende:    [0] id de la carte    ,    M  machine    ,    T  en chantier  ]       |");
         System.out.println("\\---------------------------------------------------------------------------------------------/");
@@ -381,7 +237,6 @@ public class LegacyTerminalInterface implements VisualInterface {
         String t6 = "[F] action -> ecu     ";
         String t7 = "[G] ecu -> action     ";
         
-        // \u001B[34m[A]\u001B[0m
         System.out.println("/------------------------\\ /---------------\\/---------------\\/---------------\\/---------------\\");
         System.out.println("| " +       t1       + " | |     *j1*      ||      j2       ||      j3       ||      j4       |");
         System.out.println("| " +       t2       + " | |               ||               ||               ||               |");

@@ -23,22 +23,50 @@ public class GameLauncher {
 		} catch (UnsupportedEncodingException e) {
 			throw new InternalError("VM does not support mandatory encoding UTF-8");
 		}
+//   _________  
+// /|__/   \__|\
+// \|__\___/__|/
+//      |/|     
+//      |/|     
+//      |/|     
+//      /.\     
+//      \_/      
+
+//      ___      
+//     /_._\     
+//     / ° \     
+//    / / \ \    
+//   //     \\   
+//  //       \\  
+// /           \  
+
+//      ___      
+//     /_._\\     
+//     / ° \\     
+//    / / \\ \\    
+//   //     \\\\   
+//  //       \\\\  
+// /           \\  
 
 		//TODO l'interface graphique
-		System.out.println(" _                 ____        _   _                              ");
-		System.out.println("| |               |  _ \\      | | (_)                            ");
-		System.out.println("| |     ___  ___  | |_) | __ _| |_ _ ___ ___  ___ _   _ _ __ ___ ");
-		System.out.println("| |    / _ \\/ __| |  _ < / _` | __| / __/ __|/ _ \\ | | | '__/ __|");
-		System.out.println("| |___|  __/\\__ \\ | |_) | (_| | |_| \\__ \\__ \\  __/ |_| | |  \\__ \\");
-		System.out.println("|______\\___||___/ |____/ \\__,_|\\__|_|___/___/\\___|\\__,_|_|  |___/");
-		System.out.println("																  ");
+		System.out.println("   _________  " 	+ "   _                 ____        _                                 "		+ "      ___      ");
+		System.out.println(" /|__/   \\__|\\" 	+ "  | |               |  _ \\      | | (_)                            "		+ "     /_._\\     ");
+		System.out.println(" \\|__\\___/__|/" 	+ "  | |     ___  ___  | |_) | __ _| |_ _ ___ ___  ___ _   _ _ __ ___ "			+ "     / ° \\     ");
+		System.out.println("      |/|     " 	+ "  | |    / _ \\/ __| |  _ < / _` | __| / __/ __|/ _ \\ | | | '__/ __|"		+ "    / / \\ \\    ");
+		System.out.println("      |/|     " 	+ "  | |___|  __/\\__ \\ | |_) | (_| | |_| \\__ \\__ \\  __/ |_| | |  \\__ \\"	+ "   //     \\\\   ");
+		System.out.println("      |/|     " 	+ "  |______\\___||___/ |____/ \\__,_|\\__|_|___/___/\\___|\\__,_|_|  |___/"	+ "  //       \\\\  ");
+		System.out.println("      /.\\     " 	+ "                                                                   "			+ " /           \\  ");
+		System.out.println("      \\_/      " 	+ "            veuillez appuyer sur entrée pour démarrer");
 
-		System.out.println("           veuillez appuyer sur entrée pour démarrer êä");
 		//analyse de terminal, si ce dernier n'est pas compatible couleur, LegacyTerminalInterface est lancé sinon TerminalInterface
 		Scanner sc = new Scanner(System.in);
 		System.out.println("\u001B[6n");
 		boolean colorSupport = !sc.nextLine().equals("");
-		boolean legacy = (!colorSupport );
+		boolean legacy = (!colorSupport);
+		if(colorSupport){
+			System.out.print(String.format("\033[%dA",1)); // Move up
+			System.out.print("\033[2K"); // Erase line content
+		}
 		sc.close();
 		System.out.println("------info config------");
 		System.out.println("Charset         : " + System.getProperty("file.encoding"));
@@ -51,7 +79,8 @@ public class GameLauncher {
 			visualInterface = new TerminalInterface(players);
 		}
 
-		this.game = new Game(players, pile, currentCards, visualInterface);
+		//TODO modifier le currentid
+		this.game = new Game(players, pile, currentCards, visualInterface,0);
 	}
 
 	public void loadConf(Deck pile, Deck currentCards, ArrayList<Player> players){
@@ -65,8 +94,17 @@ public class GameLauncher {
 		players.get(1).cards.addBuilder(pile.pickBuilder(2));
 		players.get(2).cards.addBuilder(pile.pickBuilder(3));
 
+		currentCards.addBuild(pile.pickRandomBuild());
+		currentCards.addBuild(pile.pickRandomBuild());
+		currentCards.addBuild(pile.pickRandomBuild());
+		currentCards.addBuild(pile.pickRandomBuild());
+		currentCards.addBuild(pile.pickRandomBuild());
 
-
+		currentCards.addBuilder(pile.pickRandomBuilder());
+		currentCards.addBuilder(pile.pickRandomBuilder());
+		currentCards.addBuilder(pile.pickRandomBuilder());
+		currentCards.addBuilder(pile.pickRandomBuilder());
+		currentCards.addBuilder(pile.pickRandomBuilder());
 	}
 
 	public void createCards(Deck pile) {
