@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project name="LesBatisseurs" default="run" basedir=".">
     <description>
         le jeu les batisseurs, par maxime daniel
@@ -24,13 +25,13 @@
     </target>
 
     <target name="compile" depends="init" description="compile the source ">
-        <javac srcdir="${src}" destdir="${class}" includeantruntime="false">
+        <javac srcdir="${src}" destdir="${class}" includeantruntime="false" encoding="UTF-8">
             <exclude name="test/**"/>
         </javac>
     </target>
 
     <target name="jar" depends="compile" description="generate the distribution" >
-        <jar jarfile="${jar}/${jarName}.jar" basedir="${class}">
+        <jar jarfile="${jar}/${jarName}.jar" basedir="${class}" encoding="UTF-8">
             <manifest>
                 <attribute name="Main-Class" value="${mainClass}"/>
             </manifest>
@@ -39,8 +40,9 @@
 
 
     <target name="run" depends="jar">
-        <java jar="${jar}/${jarName}.jar" fork="true"/>
-
+        <java jar="${jar}/${jarName}.jar" fork="true">
+            <jvmarg value="-Dfile.encoding=UTF-8"/>
+        </java>
     </target>
 
     <target name="clean">

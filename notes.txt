@@ -1,0 +1,6 @@
+1-6 apprentis
+7-18 manoeuvres
+19-34 compagnons
+35-42 maitres
+43-76 batiments
+77-84 machines

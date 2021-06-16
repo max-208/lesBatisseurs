@@ -32,12 +32,8 @@ public class Deck {
 	public boolean addBuilder(IBuilder builder) throws IllegalArgumentException {
 		boolean ret = false;
 		if(builder != null){
-			if(builder.getEstMachine()){
-				ret = this.addMachine((Machine) builder);
-			} else{
-				this.builders.put(builder.getId(), builder);
-				ret = true;
-			}
+			this.builders.put(builder.getId(), builder);
+			ret = true;
 		} else {
 			throw new IllegalArgumentException("le builder ne doit pas etre null");
 		}
@@ -60,16 +56,22 @@ public class Deck {
 	 */
 	public IBuilder pickBuilder(int index) {
 		IBuilder ret = this.builders.get(index);
-		if(ret != null && ret.getEstMachine()){
-			this.pickMachine(index);
-		} else {
-			this.builders.remove(index);
-		}
+		this.builders.remove(index);
 		return ret;
 	}
 
 	public Set<Integer> getBuilderKeys(){
 		return this.builders.keySet();
+	}
+
+	public IBuilder pickRandomBuilder(){
+		IBuilder ret = null;
+		if(this.builders.size()>0){
+			Integer[] set = (Integer[]) this.builders.keySet().toArray();
+			Integer key = set[new Random().nextInt(set.length)];
+			ret = this.pickBuilder(key);
+		}
+		return ret;
 	}
 
 	/**
@@ -80,7 +82,7 @@ public class Deck {
 	public boolean addMachine(Machine machine) throws IllegalArgumentException {
 		boolean ret = false;
 		if(machine != null){
-			this.builders.put(machine.getId(), machine);
+			//this.builders.put(machine.getId(), machine);
 			this.builds.put(machine.getId(), machine);
 			ret = true;
 		} else {
@@ -96,11 +98,11 @@ public class Deck {
 	 */
 	public Machine pickMachine(int index) {
 		Machine ret = null;
-		if(this.builders.get(index) != null){
-			boolean estMachine = this.builders.get(index).getEstMachine();
+		if(this.builds.get(index) != null){
+			boolean estMachine = this.builds.get(index).getEstMachine();
 			if(estMachine){
-				ret = (Machine) this.builders.get(index);
-				this.builders.remove(index);
+				ret = (Machine) this.builds.get(index);
+				//this.builders.remove(index);
 				this.builds.remove(index);
 			}
 		}
@@ -114,10 +116,10 @@ public class Deck {
 	 */
 	public Machine getMachine(int index) {
 		Machine ret = null;
-		if(this.builders.get(index) != null){
-			boolean estMachine = this.builders.get(index).getEstMachine();
+		if(this.builds.get(index) != null){
+			boolean estMachine = this.builds.get(index).getEstMachine();
 			if(estMachine){
-				ret = (Machine) this.builders.get(index);
+				ret = (Machine) this.builds.get(index);
 			}
 		}
 		return ret;
@@ -169,5 +171,22 @@ public class Deck {
 
 	public Set<Integer> getBuildKeys(){
 		return this.builds.keySet();
+	}
+
+	public IBuild pickRandomBuild(){
+		IBuild ret = null;
+		if(this.builders.size()>0){
+			Integer[] set = (Integer[]) this.builds.keySet().toArray();
+			Integer key = set[new Random().nextInt(set.length)];
+			ret = this.pickBuild(key);
+		}
+		return ret;
+	}
+	public int getNbBuilds(){
+		return this.builds.size();
+	}
+
+	public int getNbBuilders(){
+		return this.builders.size();
 	}
 }

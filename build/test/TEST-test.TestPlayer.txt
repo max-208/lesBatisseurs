@@ -1,29 +1,9 @@
 Testsuite: test.TestPlayer
-Tests run: 3, Failures: 2, Errors: 1, Skipped: 0, Time elapsed: 0,021 sec
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0,022 sec
 
-Testcase: testEcuVersAction(test.TestPlayer):	FAILED
-null
-junit.framework.AssertionFailedError
-	at test.TestPlayer.testEcuVersAction(Unknown Source)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:78)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-
-
-Testcase: testActionVersEcus(test.TestPlayer):	FAILED
-null
-junit.framework.AssertionFailedError
-	at test.TestPlayer.testActionVersEcus(Unknown Source)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:78)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-
-
-Testcase: testChantier(test.TestPlayer):	Caused an ERROR
-le build ne doit pas etre null
-java.lang.IllegalArgumentException: le build ne doit pas etre null
-	at model.Deck.addBuild(Unknown Source)
-	at model.Player.ouvrirChantier(Unknown Source)
+Testcase: testChantier(test.TestPlayer):	FAILED
+expected:<8> but was:<13>
+junit.framework.AssertionFailedError: expected:<8> but was:<13>
 	at test.TestPlayer.testChantier(Unknown Source)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:78)

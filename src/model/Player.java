@@ -216,11 +216,17 @@ public class Player {
 	public boolean envoyerTravailler(IBuild build, IBuilder builder) {
 		boolean ret = false;
 		if(build != null && builder != null){
-			this.action = this.action - 1;
-			ret = build.addBuilder(builder);
-			if(build.getEstComplet()){
-				this.pointVictoire = this.pointVictoire + build.getGain();
-				this.ecus = this.ecus + build.getEcus();
+			if(build.getCoutBatisseur()<= this.action && builder.getPrix() <= this.ecus){
+				this.action = this.action - build.getCoutBatisseur();
+				this.ecus = this.ecus - builder.getPrix();
+				ret = build.addBuilder(builder);
+				if(build.getEstComplet()){
+					this.pointVictoire = this.pointVictoire + build.getGain();
+					this.ecus = this.ecus + build.getEcus();
+					if(build.getEstMachine()){
+						this.cards.addBuilder( (IBuilder) build);
+					}
+				}
 			}
 		}
 		return ret;
