@@ -40,8 +40,11 @@
 
 
     <target name="run" depends="jar">
-        <java jar="${jar}/${jarName}.jar" fork="true">
+        <java classname="${mainClass}" >
             <jvmarg value="-Dfile.encoding=UTF-8"/>
+            <classpath>
+                <pathelement path="${class}"/>
+            </classpath>
         </java>
     </target>
 

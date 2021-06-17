@@ -163,9 +163,9 @@ public class LegacyTerminalInterface implements VisualInterface {
     }
 
     @Override
-    public void updateTopBar() {
+    public void updateTopBar(int currentId){
         
-        Player j1 = new Player(PlayerType.Human);
+        Player j1 = this.joueurs.get(0);
         String j1L1,j1L2,j1L3,j1L4,j1L5;
         if(j1.getType() != PlayerType.None){
             j1L1 = String.format("%3s ",j1.getEcus()) + "ecus     ";
@@ -181,7 +181,7 @@ public class LegacyTerminalInterface implements VisualInterface {
             j1L5 = "/////////////";
         }
 
-        Player j2 = new Player(PlayerType.Human);
+        Player j2 = this.joueurs.get(1);
         String j2L1,j2L2,j2L3,j2L4,j2L5;
         if(j2.getType()  != PlayerType.None){
             
@@ -198,7 +198,7 @@ public class LegacyTerminalInterface implements VisualInterface {
             j2L5 = "/////////////";
         }
         
-        Player j3 = new Player(PlayerType.Auto);
+        Player j3 = this.joueurs.get(2);
         String j3L1,j3L2,j3L3,j3L4,j3L5;
         if(j3.getType()  != PlayerType.None){
             j3L1 = String.format("%3s ",j3.getEcus()) + "ecus     ";
@@ -214,7 +214,7 @@ public class LegacyTerminalInterface implements VisualInterface {
             j3L5 = "/////////////";
         }
         
-        Player j4 = new Player(PlayerType.None);
+        Player j4 = this.joueurs.get(3);
         String j4L1,j4L2,j4L3,j4L4,j4L5;
         if(j4.getType() != PlayerType.None){
             j4L1 = String.format("%3s ",j4.getEcus()) + "ecus     ";
@@ -236,6 +236,7 @@ public class LegacyTerminalInterface implements VisualInterface {
         String t5 = "[E] envoyer travailler";
         String t6 = "[F] action -> ecu     ";
         String t7 = "[G] ecu -> action     ";
+        String t8 = "[H] fin de tour       ";
         
         System.out.println("/------------------------\\ /---------------\\/---------------\\/---------------\\/---------------\\");
         System.out.println("| " +       t1       + " | |     *j1*      ||      j2       ||      j3       ||      j4       |");
@@ -245,6 +246,7 @@ public class LegacyTerminalInterface implements VisualInterface {
         System.out.println("| " +       t5       + " | | " + j1L3  + " || " + j2L3  + " || " + j3L3  + " || " + j4L3  + " |");
         System.out.println("| " +       t6       + " | | " + j1L4  + " || " + j2L4  + " || " + j3L4  + " || " + j4L4  + " |");
         System.out.println("| " +       t7       + " | | " + j1L5  + " || " + j2L5  + " || " + j3L5  + " || " + j4L5  + " |");
+        System.out.println("| " +       t8       + " | |               ||               ||               ||               |");
         System.out.println("\\------------------------/ \\---------------/\\---------------/\\---------------/\\---------------/");
     }
 

@@ -37,7 +37,7 @@ public class GraphicalInterface implements VisualInterface {
     }
 
     @Override
-    public void updateTopBar() {
+    public void updateTopBar(int currentId) {
         // TODO Auto-generated method stub
         
     }

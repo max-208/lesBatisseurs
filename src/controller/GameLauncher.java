@@ -17,8 +17,10 @@ public class GameLauncher {
 		Deck currentCards = new Deck();
 		this.createCards(pile);
 		this.loadConf(pile, currentCards, players);	
-		//change l'encoding du système en utf-8
 		
+		//TODO l'interface graphique
+
+		//change l'encoding du système en utf-8
 		try{
 			if(System.getProperty("os.name").toLowerCase().startsWith("windows")){
 				ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", "chcp", "65001").inheritIO();
@@ -26,52 +28,40 @@ public class GameLauncher {
 				p.waitFor();
 			}
 		} catch (Exception e){
-			System.out.println(e);
+			e.printStackTrace();
 		}
 		
 		try {
 			System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out), true, "UTF-8"));
-			
-			PrintStream out = new PrintStream(System.out, true, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			throw new InternalError("VM does not support mandatory encoding UTF-8");
 		}
 		
-//   _________  
-// /|__/   \__|\
-// \|__\___/__|/
-//      |/|     
-//      |/|     
-//      |/|     
-//      /.\     
-//      \_/      
+		//   _________  
+		// /|__/   \__|\
+		// \|__\___/__|/
+		//      |/|     
+		//      |/|     
+		//      |/|     
+		//      /.\     
+		//      \_/      
 
-//      ___      
-//     /_._\     
-//     / ° \     
-//    / / \ \    
-//   //     \\   
-//  //       \\  
-// /           \  
+		//      ___      
+		//     /_._\     
+		//     / ° \     
+		//    / / \ \    
+		//   //     \\   
+		//  //       \\  
+		// /           \  
 
-//      ___      
-//     /_._\\     
-//     / ° \\     
-//    / / \\ \\    
-//   //     \\\\   
-//  //       \\\\  
-// /           \\  
-
-		//TODO l'interface graphique
-		System.out.println("   _________  " 	+ "   _                 ____        _                                 "		+ "      ___      ");
-		System.out.println(" /|__/   \\__|\\" 	+ "  | |               |  _ \\      | | (_)                            "		+ "     /_._\\     ");
-		System.out.println(" \\|__\\___/__|/" 	+ "  | |     ___  ___  | |_) | __ _| |_ _ ___ ___  ___ _   _ _ __ ___ "			+ "     / ° \\     ");
-		System.out.println("      |/|     " 	+ "  | |    / _ \\/ __| |  _ < / _` | __| / __/ __|/ _ \\ | | | '__/ __|"		+ "    / / \\ \\    ");
-		System.out.println("      |/|     " 	+ "  | |___|  __/\\__ \\ | |_) | (_| | |_| \\__ \\__ \\  __/ |_| | |  \\__ \\"	+ "   //     \\\\   ");
-		System.out.println("      |/|     " 	+ "  |______\\___||___/ |____/ \\__,_|\\__|_|___/___/\\___|\\__,_|_|  |___/"	+ "  //       \\\\  ");
-		System.out.println("      /.\\     " 	+ "                                                                   "			+ " /           \\  ");
+		System.out.println("   _________  " 	+ "   _                 ____        _                                 "			+ "      ___    ");
+		System.out.println(" /|__/   \\__|\\" 	+ "  | |               |  _ \\      | | (_)                            "		+ "     /_._\\   ");
+		System.out.println(" \\|__\\___/__|/" 	+ "  | |     ___  ___  | |_) | __ _| |_ _ ___ ___  ___ _   _ _ __ ___ "			+ "     / ° \\   ");
+		System.out.println("      |/|     " 	+ "  | |    / _ \\/ __| |  _ < / _` | __| / __/ __|/ _ \\ | | | '__/ __|"		+ "    / / \\ \\  ");
+		System.out.println("      |/|     " 	+ "  | |___|  __/\\__ \\ | |_) | (_| | |_| \\__ \\__ \\  __/ |_| | |  \\__ \\"	+ "   //     \\\\ ");
+		System.out.println("      |/|     " 	+ "  |______\\___||___/ |____/ \\__,_|\\__|_|___/___/\\___|\\__,_|_|  |___/"	+ "  //       \\\\");
+		System.out.println("      /.\\     " 	+ "                                                                   "			+ " /           \\");
 		System.out.println("      \\_/      " 	+ "            veuillez appuyer sur entrée pour démarrer");
-
 		//analyse de terminal, si ce dernier n'est pas compatible couleur, LegacyTerminalInterface est lancé sinon TerminalInterface
 		Scanner sc = new Scanner(System.in);
 		System.out.println("\u001B[6n");
@@ -81,10 +71,10 @@ public class GameLauncher {
 			System.out.print(String.format("\033[%dA",1)); // Move up
 			System.out.print("\033[2K"); // Erase line content
 		}
-		sc.close();
+		//sc.close();
 		System.out.println("------info config------");
 		System.out.println("Charset defaut  : " + Charset.defaultCharset());
-		System.out.println("Charset         : " + System.getProperty("file.encoding"));
+		System.out.println("file encoding   : " + System.getProperty("file.encoding"));
 		System.out.println("support couleur : " + colorSupport);
 		System.out.println("legacy mode     : " + legacy);
 		System.out.println("------------------------");
@@ -95,7 +85,10 @@ public class GameLauncher {
 		}
 
 		//TODO modifier le currentid
-		this.game = new Game(players, pile, currentCards, visualInterface,0);
+		this.game = new Game(players, pile, currentCards, visualInterface,true,0,sc);
+
+		//TODO menu
+		this.game.start();
 	}
 
 	public void loadConf(Deck pile, Deck currentCards, ArrayList<Player> players){
@@ -126,7 +119,7 @@ public class GameLauncher {
 		int id = 0;
         try {
             // ouverture du fichier
-            Scanner in = new Scanner(new FileReader("data/csv/batisseurs.csv"));
+            Scanner in = new Scanner(new FileReader("data/csv/batisseurs.csv",Charset.forName("UTF-8")));
             // lecture et ajout des lignes une par une
 			in.nextLine();
             while (in.hasNextLine()) {
@@ -141,7 +134,7 @@ public class GameLauncher {
             in.close();
 
             // ouverture du fichier
-            in = new Scanner(new FileReader("data/csv/batiments.csv"));
+            in = new Scanner(new FileReader("data/csv/batiments.csv",Charset.forName("UTF-8")));
             // lecture et ajout des lignes une par une
 			in.nextLine();
             while (in.hasNextLine()) {
@@ -156,7 +149,7 @@ public class GameLauncher {
             in.close();
 
             // ouverture du fichier
-            in = new Scanner(new FileReader("data/csv/machines.csv"));
+            in = new Scanner(new FileReader("data/csv/machines.csv",Charset.forName("UTF-8")));
             // lecture et ajout des lignes une par une
 			in.nextLine();
             while (in.hasNextLine()) {
@@ -169,8 +162,8 @@ public class GameLauncher {
             }
             // fermeture du fichier ouvert en lecture
             in.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("readFile - Fichier non trouve " + id);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 	}
 

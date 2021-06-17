@@ -133,7 +133,7 @@ public class Player {
 	 */
 	public boolean ecuVersAction(int nbAction) {
 		boolean ret = false;
-		if(nbAction * 5 <= this.ecus){
+		if(nbAction * 5 <= this.ecus && nbAction>0){
 			this.ecus = this.ecus - nbAction * 5;
 			this.action = this.action + nbAction;
 			ret = true;
