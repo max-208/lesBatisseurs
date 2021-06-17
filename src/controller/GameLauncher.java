@@ -18,11 +18,25 @@ public class GameLauncher {
 		this.createCards(pile);
 		this.loadConf(pile, currentCards, players);	
 		//change l'encoding du système en utf-8
+		
+		try{
+			if(System.getProperty("os.name").toLowerCase().startsWith("windows")){
+				ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", "chcp", "65001").inheritIO();
+				Process p = pb.start();
+				p.waitFor();
+			}
+		} catch (Exception e){
+			System.out.println(e);
+		}
+		
 		try {
 			System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out), true, "UTF-8"));
+			
+			PrintStream out = new PrintStream(System.out, true, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			throw new InternalError("VM does not support mandatory encoding UTF-8");
 		}
+		
 //   _________  
 // /|__/   \__|\
 // \|__\___/__|/
@@ -69,6 +83,7 @@ public class GameLauncher {
 		}
 		sc.close();
 		System.out.println("------info config------");
+		System.out.println("Charset defaut  : " + Charset.defaultCharset());
 		System.out.println("Charset         : " + System.getProperty("file.encoding"));
 		System.out.println("support couleur : " + colorSupport);
 		System.out.println("legacy mode     : " + legacy);
