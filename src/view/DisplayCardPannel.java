@@ -1,4 +1,9 @@
 package view;
 
-public class DisplayCardPannel extends CentralPannel {
+import javax.swing.*;
+
+public class DisplayCardPannel extends JPanel {
+    public DisplayCardPannel(){
+        add(new JButton());
+    }
 }

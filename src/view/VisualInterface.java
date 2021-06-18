@@ -4,7 +4,6 @@ import java.util.*;
 import model.*;
 
 public interface VisualInterface {
-
     void updateTopBar(int currentId);
     void afficherBatiment(ArrayList<IBuild> builds);
     void afficherOuvriers(ArrayList<IBuilder> builders);

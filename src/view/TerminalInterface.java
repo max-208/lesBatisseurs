@@ -187,7 +187,7 @@ public class TerminalInterface implements VisualInterface {
             j1L2 = String.format("%3s ",j1.getPointVictoire()) + "victoire ";
             j1L3 = String.format("%3s ",j1.getAction())  + "actions  ";
             j1L4 = String.format("%3s ",j1.cards.getNbBuilds())  + "batiments";
-            j1L5 = String.format("%3s ",j1.cards.getNbBuilds())  + "ouvriers ";
+            j1L5 = String.format("%3s ",j1.cards.getNbBuilders())  + "ouvriers ";
         } else {
             j1L1 = "/////////////";
             j1L2 = "/////////////";
@@ -204,7 +204,7 @@ public class TerminalInterface implements VisualInterface {
             j2L2 = String.format("%3s ",j2.getPointVictoire()) + "victoire ";
             j2L3 = String.format("%3s ",j2.getAction()) + "actions  ";
             j2L4 = String.format("%3s ",j2.cards.getNbBuilds())  + "batiments";
-            j2L5 = String.format("%3s ",j2.cards.getNbBuilds())  + "ouvriers ";
+            j2L5 = String.format("%3s ",j2.cards.getNbBuilders())  + "ouvriers ";
         } else {
             j2L1 = "/////////////";
             j2L2 = "/////////////";
@@ -220,7 +220,7 @@ public class TerminalInterface implements VisualInterface {
             j3L2 = String.format("%3s ",j3.getPointVictoire()) + "victoire ";
             j3L3 = String.format("%3s ",j3.getAction()) + "actions  ";
             j3L4 = String.format("%3s ",j3.cards.getNbBuilds())  + "batiments";
-            j3L5 = String.format("%3s ",j3.cards.getNbBuilds())  + "ouvriers ";
+            j3L5 = String.format("%3s ",j3.cards.getNbBuilders())  + "ouvriers ";
         } else {
             j3L1 = "/////////////";
             j3L2 = "/////////////";
@@ -236,7 +236,7 @@ public class TerminalInterface implements VisualInterface {
             j4L2 = String.format("%3s ",j4.getPointVictoire()) + "p victoire ";
             j4L3 = String.format("%3s ",j4.getAction()) + "actions  ";
             j4L4 = String.format("%3s ",j4.cards.getNbBuilds())  + "batiments";
-            j4L5 = String.format("%3s ",j4.cards.getNbBuilds())  + "ouvriers ";
+            j4L5 = String.format("%3s ",j4.cards.getNbBuilders())  + "ouvriers ";
         } else {
             j4L1 = "/////////////";
             j4L2 = "/////////////";
@@ -255,7 +255,7 @@ public class TerminalInterface implements VisualInterface {
         
         // \u001B[34m[A]\u001B[0m
         
-		System.out.println("\n\n\n\n\n\n");
+		System.out.println("\n\n");
         System.out.println("╭────────────────────────╮ ╭───────────────╮╭───────────────╮╭───────────────╮╭───────────────╮");
         System.out.println("| " +       t1       + " | |      j1       ||      j2       ||      j3       ||      j4       |");
         System.out.println("| " +       t2       + " | |               ||               ||               ||               |");

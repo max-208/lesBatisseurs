@@ -3,18 +3,23 @@ package controller;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
+
+import javax.swing.*;
+import java.awt.*;
+
 import model.*;
 import view.*;
 
 public class GameLauncher {
 
 	Game game;
+	VisualInterface visualInterface;
 
-	public GameLauncher(){
-		VisualInterface visualInterface;
+	public GameLauncher(boolean isTerminal){
 		ArrayList<Player> players = new ArrayList<Player>();
 		Deck pile = new Deck();
 		Deck currentCards = new Deck();
+		Listener al = new Listener();
 		this.createCards(pile);
 		this.loadConf(pile, currentCards, players);	
 		
@@ -36,7 +41,8 @@ public class GameLauncher {
 		} catch (UnsupportedEncodingException e) {
 			throw new InternalError("VM does not support mandatory encoding UTF-8");
 		}
-		
+		Scanner sc;
+
 		//   _________  
 		// /|__/   \__|\
 		// \|__\___/__|/
@@ -53,40 +59,57 @@ public class GameLauncher {
 		//   //     \\   
 		//  //       \\  
 		// /           \  
-
-		System.out.println("   _________  " 	+ "   _                 ____        _                                 "			+ "      ___    ");
-		System.out.println(" /|__/   \\__|\\" 	+ "  | |               |  _ \\      | | (_)                            "		+ "     /_._\\   ");
-		System.out.println(" \\|__\\___/__|/" 	+ "  | |     ___  ___  | |_) | __ _| |_ _ ___ ___  ___ _   _ _ __ ___ "			+ "     / ° \\   ");
-		System.out.println("      |/|     " 	+ "  | |    / _ \\/ __| |  _ < / _` | __| / __/ __|/ _ \\ | | | '__/ __|"		+ "    / / \\ \\  ");
-		System.out.println("      |/|     " 	+ "  | |___|  __/\\__ \\ | |_) | (_| | |_| \\__ \\__ \\  __/ |_| | |  \\__ \\"	+ "   //     \\\\ ");
-		System.out.println("      |/|     " 	+ "  |______\\___||___/ |____/ \\__,_|\\__|_|___/___/\\___|\\__,_|_|  |___/"	+ "  //       \\\\");
-		System.out.println("      /.\\     " 	+ "                                                                   "			+ " /           \\");
-		System.out.println("      \\_/      " 	+ "            veuillez appuyer sur entrée pour démarrer");
-		//analyse de terminal, si ce dernier n'est pas compatible couleur, LegacyTerminalInterface est lancé sinon TerminalInterface
-		Scanner sc = new Scanner(System.in);
-		System.out.println("\u001B[6n");
-		boolean colorSupport = !sc.nextLine().equals("");
-		boolean legacy = (!colorSupport);
-		if(colorSupport){
-			System.out.print(String.format("\033[%dA",1)); // Move up
-			System.out.print("\033[2K"); // Erase line content
-		}
-		//sc.close();
-		System.out.println("------info config------");
-		System.out.println("Charset defaut  : " + Charset.defaultCharset());
-		System.out.println("file encoding   : " + System.getProperty("file.encoding"));
-		System.out.println("support couleur : " + colorSupport);
-		System.out.println("legacy mode     : " + legacy);
-		System.out.println("------------------------");
-		if(legacy){
-			visualInterface = new LegacyTerminalInterface(players);
+		if (isTerminal) {
+			System.out.println("   _________  " 	+ "   _                 ____        _                                 "			+ "      ___    ");
+			System.out.println(" /|__/   \\__|\\" 	+ "  | |               |  _ \\      | | (_)                            "		+ "     /_._\\   ");
+			System.out.println(" \\|__\\___/__|/" 	+ "  | |     ___  ___  | |_) | __ _| |_ _ ___ ___  ___ _   _ _ __ ___ "			+ "     / ° \\   ");
+			System.out.println("      |/|     " 	+ "  | |    / _ \\/ __| |  _ < / _` | __| / __/ __|/ _ \\ | | | '__/ __|"		+ "    / / \\ \\  ");
+			System.out.println("      |/|     " 	+ "  | |___|  __/\\__ \\ | |_) | (_| | |_| \\__ \\__ \\  __/ |_| | |  \\__ \\"	+ "   //     \\\\ ");
+			System.out.println("      |/|     " 	+ "  |______\\___||___/ |____/ \\__,_|\\__|_|___/___/\\___|\\__,_|_|  |___/"	+ "  //       \\\\");
+			System.out.println("      /.\\     " 	+ "                                                                   "			+ " /           \\");
+			System.out.println("      \\_/      " 	+ "            veuillez appuyer sur entrée pour démarrer");
+			//analyse de terminal, si ce dernier n'est pas compatible couleur, LegacyTerminalInterface est lancé sinon TerminalInterface
+			sc = new Scanner(System.in);
+			System.out.println("\u001B[6n");
+			boolean colorSupport = !sc.nextLine().equals("");
+			boolean legacy = (!colorSupport);
+			if(colorSupport){
+				System.out.print(String.format("\033[%dA",1)); // Move up
+				System.out.print("\033[2K"); // Erase line content
+			}
+			//sc.close();
+			System.out.println("------info config------");
+			System.out.println("Charset defaut  : " + Charset.defaultCharset());
+			System.out.println("file encoding   : " + System.getProperty("file.encoding"));
+			System.out.println("support couleur : " + colorSupport);
+			System.out.println("legacy mode     : " + legacy);
+			System.out.println("------------------------");
+			if(legacy){
+				visualInterface = new LegacyTerminalInterface(players);
+			} else {
+				visualInterface = new TerminalInterface(players);
+			}
+			launchGame(players,pile,currentCards,visualInterface,isTerminal,sc,al);
 		} else {
-			visualInterface = new TerminalInterface(players);
+			sc = new Scanner(System.in);
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					visualInterface = new GraphicalInterface(players,al);
+					System.out.println(visualInterface);
+					launchGame(players,pile,currentCards,visualInterface,isTerminal,sc,al);
+				}
+			});
 		}
+		
 
+		
+	}
+
+	public void launchGame(ArrayList<Player>players, Deck pile, Deck currentCards, VisualInterface visualInterface, boolean isTerminal, Scanner sc, Listener al){
 		//TODO modifier le currentid
-		this.game = new Game(players, pile, currentCards, visualInterface,true,0,sc);
-
+		System.out.println(visualInterface);
+		this.game = new Game(players, pile, currentCards, visualInterface,isTerminal,0,sc);
+		al.setGame(game);
 		//TODO menu
 		this.game.start();
 	}
@@ -98,21 +121,27 @@ public class GameLauncher {
 		players.add(new Player(PlayerType.Auto));
 		players.add(new Player(PlayerType.None));
 
-		players.get(0).cards.addBuilder(pile.pickBuilder(1));
-		players.get(1).cards.addBuilder(pile.pickBuilder(2));
-		players.get(2).cards.addBuilder(pile.pickBuilder(3));
+		for (int i = 1; i < 7; i++) {
+			currentCards.addBuilder(pile.pickBuilder(i));
+		}
 
-		currentCards.addBuild(pile.pickRandomBuild());
-		currentCards.addBuild(pile.pickRandomBuild());
-		currentCards.addBuild(pile.pickRandomBuild());
-		currentCards.addBuild(pile.pickRandomBuild());
-		currentCards.addBuild(pile.pickRandomBuild());
+		for (int i = 0; i < 4; i++) {
+			if(players.get(i).getType() != PlayerType.None){
+				players.get(i).cards.addBuilder(currentCards.pickRandomBuilder());
+			}
+		}
 
-		currentCards.addBuilder(pile.pickRandomBuilder());
-		currentCards.addBuilder(pile.pickRandomBuilder());
-		currentCards.addBuilder(pile.pickRandomBuilder());
-		currentCards.addBuilder(pile.pickRandomBuilder());
-		currentCards.addBuilder(pile.pickRandomBuilder());
+		for (int i = 1; i < 7; i++) {
+			IBuilder b = currentCards.pickBuilder(i);
+			if(b != null){
+				pile.addBuilder(b);
+			}
+		}
+
+		for (int i = 0; i < 5; i++) {
+			currentCards.addBuild(pile.pickRandomBuild());
+			currentCards.addBuilder(pile.pickRandomBuilder());
+		}
 	}
 
 	public void createCards(Deck pile) {

@@ -202,7 +202,7 @@ public class Deck {
 		int seen = 0;
 		while (it.hasNext() && ret.size() < 6) {
 			int current = it.next();
-			if(this.getBuild(current) != null && !this.getBuild(current).getEstComplet()){
+			if(this.getBuild(current) != null){
 				if(seen >= page * 6 && seen < page * 6 + 6){
 					ret.add(this.getBuild(current));
 				}
@@ -225,7 +225,7 @@ public class Deck {
 		int seen = 0;
 		while (it.hasNext() && ret.size() < 6) {
 			int current = it.next();
-			if(this.getBuilder(current) != null && !this.getBuilder(current).getEstOccupe()){
+			if(this.getBuilder(current) != null){
 				if(seen >= page * 6 && seen < page * 6 + 6){
 					ret.add(this.getBuilder(current));
 				}

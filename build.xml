@@ -40,11 +40,14 @@
 
 
     <target name="run" depends="jar">
-        <java classname="${mainClass}" >
+        <java classname="${mainClass}"  fork="true">
             <jvmarg value="-Dfile.encoding=UTF-8"/>
             <classpath>
                 <pathelement path="${class}"/>
             </classpath>
+            <permissions>
+                <grant class="java.security.AllPermission"/>
+            </permissions>
         </java>
     </target>
 
