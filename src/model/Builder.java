@@ -56,11 +56,7 @@ public class Builder implements IBuilder {
 		this.prodBois = prodBois;
 		this.prodSavoir = prodSavoir;
 		this.prodTuile = prodTuile;
-		if(this.type == BuilderType.Machine){
-			this.estOccupe = true;
-		} else {
-			this.estOccupe = false;
-		}
+		this.estOccupe = false;
 	}
 
 	@Override

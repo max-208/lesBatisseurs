@@ -207,10 +207,11 @@ public class Build implements IBuild {
 
 	@Override
 	public void removeAllBuilders() {
-		for (int i = this.builders.size() - 1; i >= 0 ; i--) {
-			this.builders.get(i).setEstOccupe(false);
-			this.builders.remove(i);
+		for(IBuilder builder : this.builders){
+			builder.setEstOccupe(false);
+			System.out.println(builder +" - "+ builder.getEstOccupe());
 		}
+		this.builders = new ArrayList<IBuilder>();
 	}
 
 	@Override
@@ -231,6 +232,11 @@ public class Build implements IBuild {
 	@Override
 	public int getEcus() {
 		return this.ecus;
+	}
+
+	@Override
+	public ArrayList<IBuilder> getBuilders() {
+		return this.builders;
 	}
 
 }

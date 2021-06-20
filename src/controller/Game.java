@@ -3,8 +3,9 @@ package controller;
 import java.util.*;
 import model.*;
 import view.*;
+import java.io.*;
 
-public class Game implements IGame {
+public class Game {
 
 	private ArrayList<Player> players;
 	private Deck pile;
@@ -35,51 +36,110 @@ public class Game implements IGame {
 	}
 
 	public void changeCurrentPlayer() {
-		this.currentId++;
-		if(this.currentId>=4){
-			this.currentId = 0;
-		}
-		this.current = this.players.get(this.currentId);
-		if(this.current.getType() == PlayerType.None){
-			this.changeCurrentPlayer();
+		if(current.getPointVictoire() >= 17){
+			this.stop();
+		} else {
+			this.currentId++;
+			if(this.currentId>=4){
+				this.currentId = 0;
+			}
+			this.current = this.players.get(this.currentId);
+			if(this.current.getType() == PlayerType.None){
+				this.changeCurrentPlayer();
+			} else {
+				this.saveState();
+				this.current.nouveauTour();
+				if(this.current.getType() == PlayerType.Auto){
+					this.autoplay();
+				}
+			}
+			this.visualInterface.updateTopBar(this.currentId);
+			this.visualInterface.empty();
 		}
 	}
 
-	public void play() {
-		// TODO - implement Game.play
-		throw new UnsupportedOperationException();
+	public void autoplay() {
+		//TODO implementer une meilleure ia
+		Random r = new Random();
+		int rng;
+		System.out.println("nb batiment chantier/total : " + this.current.cards.afficherBatimentChantier(0).size() + " / " +  this.current.cards.getNbBuilds() );
+		System.out.println("nb batisseurs libres/total : " + this.current.cards.afficherOuvriersLibres(0).size() + " / " +  this.current.cards.getNbBuilders() );
+		try{
+			//int[4] buildFocus = new int[4];
+			while(this.current.getAction()>0){
+				if(r.nextInt(2) == 0){
+					if(this.currentCards.afficherBatiment(0).size() >0 && this.current.cards.afficherBatimentChantier(0).size() <3){
+						this.makeAction("C");
+						rng = r.nextInt(this.currentCards.afficherBatiment(0).size());
+						this.makeAction(this.currentCards.afficherBatiment(0).get(rng).getId() + "");
+					}
+				} else {
+					if(this.currentCards.afficherOuvriers(0).size() > 0 && this.current.cards.afficherOuvriersLibres(0).size() <3){
+						this.makeAction("D");
+						rng = r.nextInt(this.currentCards.afficherOuvriers(0).size());
+						this.makeAction(this.currentCards.afficherOuvriers(0).get(rng).getId() + "");
+					}
+				}
+				if(this.current.cards.afficherOuvriersLibres(0).size() > 0 && this.current.cards.afficherBatimentChantier(0).size() > 0){
+					int rng1 = r.nextInt(this.current.cards.afficherBatimentChantier(0).size());
+					int rng2 = r.nextInt(this.current.cards.afficherOuvriersLibres(0).size());
+					//int rng1 = 0;
+					//int rng2 = 0;
+					if(this.current.getEcus() < this.current.cards.afficherOuvriersLibres(0).get(rng2).getPrix() || this.current.getAction() < this.current.cards.afficherBatimentChantier(0).get(rng1).getCoutBatisseur()){
+						this.makeAction("F");
+						this.makeAction("1");
+					}
+					this.makeAction("E");
+					this.makeAction(this.current.cards.afficherBatimentChantier(0).get(rng1).getId() + "");
+					this.makeAction(this.current.cards.afficherOuvriersLibres(0).get(rng2).getId() + "");
+				}
+				if(this.current.cards.afficherOuvriersLibres(0).size() == 0 && this.currentCards.afficherOuvriers(0).size() == 0){
+					throw new Exception();
+				}
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		this.makeAction("H");
 	}
 
-	@Override
 	public void start() {
 		if(this.isTerminal){
 			boolean finPartie = false;
 			ArrayList<String> t = new ArrayList<String>();
+			this.current.nouveauTour();
 			while(!finPartie){
 				boolean finTour = false;
-				this.current.nouveauTour();
 				t.clear();
-				t.add("nouveau tour, vous pouvez lancer les commandes en tappant les valeurs entre crochet");
+				t.add("nouveau tour, vous pouvez lancer les commandes en utilisant les commandes ci-dessus");
 				this.currentAction = "";
 				this.visualInterface.updateTopBar(this.currentId);
 				this.visualInterface.empty();
-				this.visualInterface.textReplyPrompt(t);
-				while(!finTour){
-					System.out.print(">");
-					String text = "";
-					text = sc.nextLine().toUpperCase();
-					if(text.equals("H")){
-						if(this.current.getAction() == 0){
-							finTour = true;
-						} else {
-							t.clear();
-							t.add("il vous reste des actions,");
-							t.add("vous ne pourrez finir votre tour qu'apres avoir fait toute vos actions");
-							this.visualInterface.infoPrompt(t);
+				this.visualInterface.infoPrompt(t);
+				switch (this.current.getType()){
+					case Auto:
+						this.autoplay();
+						break;
+					case None:
+						break;
+					case Human:
+						while(!finTour){
+							System.out.print(">");
+							String text = "";
+							text = sc.nextLine().toUpperCase();
+							if(text.equals("H")){
+								if(this.current.getAction() == 0){
+									finTour = true;
+								} else {
+									t.clear();
+									t.add("il vous reste des actions,");
+									t.add("vous ne pourrez finir votre tour qu'apres avoir fait toute vos actions");
+									this.visualInterface.infoPrompt(t);
+								}
+							} else {
+								this.makeAction(text);
+							}
 						}
-					} else {
-						this.makeAction(text);
-					}
 				}
 				
 				if(current.getPointVictoire() >= 17){
@@ -87,26 +147,42 @@ public class Game implements IGame {
 				}
 				this.changeCurrentPlayer();
 			}
+			this.stop();
 		}else {
-			//TODO interface graphique
-			/*
-			boolean finPartie = false;
-			while(!finPartie){
+			this.current.nouveauTour();
+			ArrayList<String> t = new ArrayList<String>();
+			t.clear();
+			t.add("nouveau tour, vous pouvez lancer les commandes en utilisant les commandes ci-dessus");
+			this.currentAction = "";
+			this.visualInterface.updateTopBar(this.currentId);
+			this.visualInterface.empty();
+			this.visualInterface.infoPrompt(t);
+			if(this.current.getType() == PlayerType.Auto){
+				this.autoplay();
 			}
-			*/
 		}
 	}
 
 	public void makeAction(String input){
+		HashMap<String,String> hash = new HashMap<String,String>();
+		hash.put("A","afficher ouvriers ");
+		hash.put("B","afficher batiments");
+		hash.put("C","ouvrir chantier   ");
+		hash.put("D","recruter ouvrier  ");
+		hash.put("E","envoyer travailler");
+		hash.put("F","action -> ecu     ");
+		hash.put("G","ecu -> action     ");
+		hash.put("H","fin de tour       ");
+		System.out.println(input + " - " + hash.get(input));
 		ArrayList<String> t = new ArrayList<String>();
 		if(input != null){
 			switch (input) {
 				case "A":
 					this.currentActionParam =0;
 					this.visualInterface.updateTopBar(this.currentId);
-					this.visualInterface.afficherOuvriers(current.cards.afficherOuvriers(currentActionParam));
+					this.visualInterface.afficherOuvriers(current.cards.afficherOuvriersLibres(currentActionParam));
 					t.clear();
-					t.add("Pour afficher plus de carte entrez L ou R");
+					t.add("Pour afficher plus de carte utilisez les fleches");
 					this.visualInterface.infoPrompt(t);
 					this.currentAction = "A";
 					break;
@@ -114,9 +190,9 @@ public class Game implements IGame {
 				case "B":
 					this.currentActionParam =0;
 					this.visualInterface.updateTopBar(this.currentId);
-					this.visualInterface.afficherBatiment(current.cards.afficherBatiment(currentActionParam));
+					this.visualInterface.afficherBatiment(current.cards.afficherBatimentChantier(currentActionParam));
 					t.clear();
-					t.add("Pour afficher plus de carte entrez L ou R");
+					t.add("Pour afficher plus de carte utilisez les fleches");
 					this.visualInterface.infoPrompt(t);
 					this.currentAction = "B";
 					break;
@@ -143,12 +219,14 @@ public class Game implements IGame {
 	
 				case "E":
 					this.visualInterface.updateTopBar(this.currentId);
-					this.visualInterface.afficherBatiment(this.current.cards.afficherBatiment(0));
+					this.visualInterface.afficherBatiment(this.current.cards.afficherBatimentChantier(0));
 					t.clear();
 					t.add("Veuillez selectionner le chantier qui doit etre lancé");
 					this.visualInterface.infoPrompt(t);
 					this.currentAction = "E";
 					this.currentActionParam = 0;
+					this.currentActionBuild = null;
+					this.currentActionBuilder = null;
 					break;
 	
 				case "F":
@@ -156,7 +234,7 @@ public class Game implements IGame {
 					this.visualInterface.empty();
 					t.clear();
 					t.add("veuillez donner une quantité d'action a depenser");
-					this.visualInterface.textReplyPrompt(t);
+					this.visualInterface.textReplyPrompt(t,this.current.getAction());
 					this.currentAction = "F";
 					break;
 	
@@ -165,7 +243,7 @@ public class Game implements IGame {
 					this.visualInterface.empty();
 					t.clear();
 					t.add("veuillez donner une quantité d'action a acheter");
-					this.visualInterface.textReplyPrompt(t);
+					this.visualInterface.textReplyPrompt(t,this.current.getEcus()/5);
 					this.currentAction = "G";
 					break;
 	
@@ -177,9 +255,9 @@ public class Game implements IGame {
 								this.currentActionParam = current.cards.getNbBuilders()/6;
 							}
 							this.visualInterface.updateTopBar(this.currentId);
-							this.visualInterface.afficherOuvriers(current.cards.afficherOuvriers(currentActionParam));
+							this.visualInterface.afficherOuvriers(current.cards.afficherOuvriersLibres(currentActionParam));
 							t.clear();
-							t.add("Pour afficher plus de carte entrez L ou R");
+							t.add("Pour afficher plus de carte utilisez les fleches");
 							this.visualInterface.infoPrompt(t);
 							this.currentAction = "A";
 							break;
@@ -189,13 +267,16 @@ public class Game implements IGame {
 								this.currentActionParam = current.cards.getNbBuilds()/6;
 							}
 							this.visualInterface.updateTopBar(this.currentId);
-							this.visualInterface.afficherBatiment(current.cards.afficherBatiment(currentActionParam));
+							this.visualInterface.afficherBatiment(current.cards.afficherBatimentChantier(currentActionParam));
 							t.clear();
-							t.add("Pour afficher plus de carte entrez L ou R");
+							t.add("Pour afficher plus de carte utilisez les fleches");
 							this.visualInterface.infoPrompt(t);
 							this.currentAction = "B";
 							break;
 						case "C":
+							if(this.currentActionParam < 0){
+								this.currentActionParam = currentCards.getNbBuilds()/6;
+							}
 							this.visualInterface.updateTopBar(this.currentId);
 							this.visualInterface.afficherBatiment(this.currentCards.afficherBatiment(currentActionParam));
 							t.clear();
@@ -205,6 +286,9 @@ public class Game implements IGame {
 							break;
 
 						case "D":
+							if(this.currentActionParam < 0){
+								this.currentActionParam = currentCards.getNbBuilders()/6;
+							}
 							this.visualInterface.updateTopBar(this.currentId);
 							this.visualInterface.afficherOuvriers(this.currentCards.afficherOuvriers(currentActionParam));
 							t.clear();
@@ -215,20 +299,25 @@ public class Game implements IGame {
 
 						case "E":
 							if(this.currentActionBuild == null){
+								if(this.currentActionParam < 0){
+									this.currentActionParam = currentCards.getNbBuilds()/6;
+								}
 								t.clear();
 								t.add("Veuillez selectionner le chantier qui doit etre lancé");
 								this.visualInterface.updateTopBar(this.currentId);
-								this.visualInterface.afficherBatiment(this.current.cards.afficherBatiment(currentActionParam));
+								this.visualInterface.afficherBatiment(this.current.cards.afficherBatimentChantier(currentActionParam));
 								this.visualInterface.infoPrompt(t);
 								this.currentAction = "E";
 							} else {
+								if(this.currentActionParam < 0){
+									this.currentActionParam = currentCards.getNbBuilders()/6;
+								}
 								t.clear();
 								t.add("Veuillez selectionner le batisseur qui doit etre envoyé au chantier");
 								this.visualInterface.updateTopBar(this.currentId);
-								this.visualInterface.afficherOuvriers(this.current.cards.afficherOuvriers(this.currentActionParam));
+								this.visualInterface.afficherOuvriers(this.current.cards.afficherOuvriersLibres(this.currentActionParam));
 								this.visualInterface.infoPrompt(t);
-								this.currentActionParam = 0;
-
+								this.currentAction = "E";
 							}
 							
 							break;
@@ -249,9 +338,9 @@ public class Game implements IGame {
 								this.currentActionParam = 0;
 							}
 							this.visualInterface.updateTopBar(this.currentId);
-							this.visualInterface.afficherOuvriers(current.cards.afficherOuvriers(currentActionParam));
+							this.visualInterface.afficherOuvriers(current.cards.afficherOuvriersLibres(currentActionParam));
 							t.clear();
-							t.add("Pour afficher plus de carte entrez L ou R");
+							t.add("Pour afficher plus de carte utilisez les fleches");
 							this.visualInterface.infoPrompt(t);
 							this.currentAction = "A";
 							break;
@@ -261,13 +350,16 @@ public class Game implements IGame {
 								this.currentActionParam = 0;
 							}
 							this.visualInterface.updateTopBar(this.currentId);
-							this.visualInterface.afficherBatiment(current.cards.afficherBatiment(currentActionParam));
+							this.visualInterface.afficherBatiment(current.cards.afficherBatimentChantier(currentActionParam));
 							t.clear();
-							t.add("Pour afficher plus de carte entrez L ou R");
+							t.add("Pour afficher plus de carte utilisez les fleches");
 							this.visualInterface.infoPrompt(t);
 							this.currentAction = "B";
 							break;
 						case "C":
+							if(this.currentActionParam > current.cards.getNbBuilds()/6){
+								this.currentActionParam = 0;
+							}
 							this.visualInterface.updateTopBar(this.currentId);
 							this.visualInterface.afficherBatiment(this.currentCards.afficherBatiment(currentActionParam));
 							t.clear();
@@ -277,6 +369,9 @@ public class Game implements IGame {
 							break;
 
 						case "D":
+							if(this.currentActionParam > current.cards.getNbBuilders()/6){
+								this.currentActionParam = 0;
+							}
 							this.visualInterface.updateTopBar(this.currentId);
 							this.visualInterface.afficherOuvriers(this.currentCards.afficherOuvriers(currentActionParam));
 							t.clear();
@@ -287,20 +382,25 @@ public class Game implements IGame {
 
 						case "E":
 							if(this.currentActionBuild == null){
+								if(this.currentActionParam > current.cards.getNbBuilds()/6){
+									this.currentActionParam = 0;
+								}
 								t.clear();
 								t.add("Veuillez selectionner le chantier qui doit etre lancé");
 								this.visualInterface.updateTopBar(this.currentId);
-								this.visualInterface.afficherBatiment(this.current.cards.afficherBatiment(currentActionParam));
+								this.visualInterface.afficherBatiment(this.current.cards.afficherBatimentChantier(currentActionParam));
 								this.visualInterface.infoPrompt(t);
 								this.currentAction = "E";
 							} else {
+								if(this.currentActionParam > current.cards.getNbBuilders()/6){
+									this.currentActionParam = 0;
+								}
 								t.clear();
 								t.add("Veuillez selectionner le batisseur qui doit etre envoyé au chantier");
 								this.visualInterface.updateTopBar(this.currentId);
-								this.visualInterface.afficherOuvriers(this.current.cards.afficherOuvriers(this.currentActionParam));
+								this.visualInterface.afficherOuvriers(this.current.cards.afficherOuvriersLibres(this.currentActionParam));
 								this.visualInterface.infoPrompt(t);
-								this.currentActionParam = 0;
-
+								this.currentAction = "E";
 							}
 							
 							break;
@@ -313,6 +413,25 @@ public class Game implements IGame {
 					}
 					break;
 			
+				case "H":
+					if(this.current.getAction() == 0){
+						t.clear();
+						t.add("nouveau tour, vous pouvez lancer les commandes en utilisant les commandes ci-dessus");
+						this.currentAction = "";
+						this.visualInterface.updateTopBar(this.currentId);
+						this.visualInterface.empty();
+						this.visualInterface.infoPrompt(t);
+						if(current.getPointVictoire() >= 17){
+							this.stop();
+						}
+						this.changeCurrentPlayer();
+					} else {
+						t.clear();
+						t.add("il vous reste des actions,");
+						t.add("vous ne pourrez finir votre tour qu'apres avoir fait toute vos actions");
+						this.visualInterface.infoPrompt(t);
+					}
+					break;
 				default:
 					try {
 						int num = Integer.parseInt(input);
@@ -326,7 +445,7 @@ public class Game implements IGame {
 										this.visualInterface.updateTopBar(this.currentId);
 										this.visualInterface.afficherBatiment(current.cards.afficherBatiment(currentActionParam));
 										t.clear();
-										t.add("Pour afficher plus de carte entrez L ou R");
+										t.add("Pour afficher plus de carte utilisez les fleches");
 										this.visualInterface.infoPrompt(t);
 										this.currentAction = "B";
 									} else {
@@ -352,7 +471,7 @@ public class Game implements IGame {
 										this.visualInterface.updateTopBar(this.currentId);
 										this.visualInterface.afficherOuvriers(current.cards.afficherOuvriers(currentActionParam));
 										t.clear();
-										t.add("Pour afficher plus de carte entrez L ou R");
+										t.add("Pour afficher plus de carte utilisez les fleches");
 										this.visualInterface.infoPrompt(t);
 										this.currentAction = "A";
 										break;
@@ -376,12 +495,12 @@ public class Game implements IGame {
 										t.clear();
 										t.add("Veuillez selectionner le batisseur qui doit etre envoyé au chantier");
 										this.visualInterface.updateTopBar(this.currentId);
-										this.visualInterface.afficherOuvriers(this.current.cards.afficherOuvriers(this.currentActionParam));
+										this.visualInterface.afficherOuvriers(this.current.cards.afficherOuvriersLibres(this.currentActionParam));
 										this.visualInterface.infoPrompt(t);
 										this.currentActionParam = 0;
 									} else {
 										t.clear();
-										t.add("Cette valeur n'est pas correcte, veuillez réésayer");
+										t.add("Ce batiment ne vous appartiens pas ou est deja en chantier");
 										this.visualInterface.infoPrompt(t);
 									}
 								} else {
@@ -390,20 +509,22 @@ public class Game implements IGame {
 									}
 									if(this.currentActionBuilder == null){
 										t.clear();
-										t.add("Cette valeur n'est pas correcte, veuillez réésayer");
+										t.add("Ce batisseur ne vous appartiens pas ou est deja occupé");
 										this.visualInterface.infoPrompt(t);
 									} else {
 										if(this.current.envoyerTravailler(this.currentActionBuild, this.currentActionBuilder)){
 											this.currentActionParam =0;
 											this.visualInterface.updateTopBar(this.currentId);
-											this.visualInterface.afficherBatiment(current.cards.afficherBatiment(currentActionParam));
+											this.visualInterface.afficherBatiment(current.cards.afficherBatimentChantier(currentActionParam));
 											t.clear();
-											t.add("Pour afficher plus de carte entrez L ou R");
+											t.add("Pour afficher plus de carte utilisez les fleches");
 											this.visualInterface.infoPrompt(t);
 											this.currentAction = "";
+											this.currentActionBuild = null;
+											this.currentActionBuilder = null;
 										} else {
 											t.clear();
-											t.add("Cette valeur n'est pas correcte, veuillez réésayer");
+											t.add("Il vous faut au moins" + this.currentActionBuilder.getPrix() + " ecus et " + this.currentActionBuild.getCoutBatisseur() + " actions pour envoyer ce batisseur ici");
 											this.visualInterface.infoPrompt(t);
 										}
 									}
@@ -417,9 +538,10 @@ public class Game implements IGame {
 									this.visualInterface.empty();
 									this.currentAction = "";
 								} else {
+									this.visualInterface.textReplyPrompt(t,this.current.getAction());
 									t.clear();
 									t.add("Cette valeur n'est pas correcte, veuillez réésayer");
-									this.visualInterface.textReplyPrompt(t);
+									this.visualInterface.infoPrompt(t);
 								}
 								break;
 
@@ -431,14 +553,11 @@ public class Game implements IGame {
 								} else {
 									t.clear();
 									t.add("Cette valeur n'est pas correcte, veuillez réésayer");
-									this.visualInterface.textReplyPrompt(t);
+									this.visualInterface.textReplyPrompt(t,this.current.getEcus()/5);
 								}
 								break;
 
 							default:
-								t.clear();
-								t.add("Cette valeur n'est pas correcte, veuillez réésayer");
-								this.visualInterface.infoPrompt(t);
 								break;
 
 						}
@@ -450,12 +569,87 @@ public class Game implements IGame {
 					break;
 			}
 		}
+		
 	}
 
-	@Override
 	public void stop() {
 		// TODO Auto-generated method stub
-		
+	}
+
+	public void saveState(){
+		try{
+			FileWriter w = new FileWriter("data/save/save.sav");
+        	BufferedWriter b = new BufferedWriter(w);
+        	PrintWriter out = new PrintWriter(b);
+
+			out.println(this.currentId);
+			String s="";
+			for (int i = 0; i < 4; i++) {
+				s = s + ":";
+				if(players.get(i).getType() == PlayerType.Human){
+					s = s+"H";
+				}else if(players.get(i).getType() == PlayerType.Auto){
+					s = s+"A";
+				} else {
+					s = s+"N";
+				}
+			}
+			if(s.length()>0){
+				s = s.substring(1);
+			}
+			out.println(s);
+			s = "";
+			for( Integer i : this.currentCards.getBuilderKeys()){
+				s = s + ":";
+				s = s + i;
+			}
+			if(s.length()>0){
+				s = s.substring(1);
+			}
+			out.println(s);
+			s = "";
+			for( Integer i : this.currentCards.getBuildKeys()){
+				s = s + ":";
+				s = s + i;
+			}
+			if(s.length()>0){
+				s = s.substring(1);
+			}
+			out.println(s);
+			for(Player p : this.players){
+				if(p.getType() != PlayerType.None){
+					out.println(p.getEcus() + ":" + p.getPointVictoire());
+
+					s = "";
+					for( Integer i : p.cards.getBuilderKeys()){
+						s = s + ":";
+						s = s + i;
+					}
+					if(s.length()>0){
+						s = s.substring(1);
+					}
+					out.println(s);
+					s = "";
+					for( Integer i : p.cards.getBuildKeys()){
+						s = s + ":";
+						s = s + i;
+					}
+					if(s.length()>0){
+						s = s.substring(1);
+					}
+					out.println(s);
+				} else {
+					out.println("");
+					out.println("");
+					out.println("");
+				}
+				
+			}
+
+			out.close();
+        } catch(IOException ex){
+            ex.printStackTrace();
+        }
 	}
 
 }

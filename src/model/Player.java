@@ -77,6 +77,7 @@ public class Player {
 	 */
 	public void nouveauTour() {
 		this.action = this.action + 3;
+		this.cards.resetAllBuildPrices();
 	}
 
 	/**
@@ -153,6 +154,7 @@ public class Player {
 			if(build.getCoutBatisseur()<= this.action && builder.getPrix() <= this.ecus){
 				this.action = this.action - build.getCoutBatisseur();
 				this.ecus = this.ecus - builder.getPrix();
+				builder.setEstOccupe(true);
 				ret = build.addBuilder(builder);
 				if(build.getEstComplet()){
 					this.pointVictoire = this.pointVictoire + build.getGain();

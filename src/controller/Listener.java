@@ -13,9 +13,11 @@ public class Listener implements ActionListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println(e.getActionCommand());
 		this.game.makeAction(e.getActionCommand());
+	}
+
+	public void makeAction(String s){
+		this.game.makeAction(s);
 	}
 
 }

@@ -9,7 +9,7 @@ public interface VisualInterface {
     void afficherOuvriers(ArrayList<IBuilder> builders);
     void infoPrompt(ArrayList<String> texteAConfirmer);
     void yesNoPrompt(ArrayList<String> texteAConfirmer);
-    void textReplyPrompt(ArrayList<String> texteAConfirmer);
+    void textReplyPrompt(ArrayList<String> texteAConfirmer, int max);
     void empty();
     
 }

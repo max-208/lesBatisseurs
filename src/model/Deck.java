@@ -190,8 +190,8 @@ public class Deck {
 		return this.builders.size();
 	}
 
-		/**
-	 * rends une arraylist contenant les batiments du joueur non complets, 4 batiments par page
+	/**
+	 * rends une arraylist contenant les batiments du deck, 4 batiments par page
 	 * @param page la page a afficher
 	 * @return une arraylist contenant les cartes a afficher
 	 */
@@ -212,9 +212,31 @@ public class Deck {
 		return ret;
 	}
 
+	/**
+	 * rends une arraylist contenant les batiments du deck non complets, 4 batiments par page
+	 * @param page la page a afficher
+	 * @return une arraylist contenant les cartes a afficher
+	 */
+	public ArrayList<IBuild> afficherBatimentChantier(int page) {
+		ArrayList<IBuild> ret = new ArrayList<IBuild>();
+		Set<Integer> set = this.getBuildKeys();
+		Iterator<Integer> it = set.iterator();
+		int seen = 0;
+		while (it.hasNext() && ret.size() < 6) {
+			int current = it.next();
+			if(this.getBuild(current) != null && this.getBuild(current).getEstChantier()){
+				if(seen >= page * 6 && seen < page * 6 + 6){
+					ret.add(this.getBuild(current));
+				}
+				seen++;
+			}
+		}
+		return ret;
+	}
+
 
 	/**
-	 * rends une arraylist contenant les ouvriers libres du joueur, 4 ouvriers par page
+	 * rends une arraylist contenant les ouvriers du deck, 4 ouvriers par page
 	 * @param page la page a afficher
 	 * @return une arraylist contenant les cartes a afficher
 	 */
@@ -233,5 +255,33 @@ public class Deck {
 			}
 		}
 		return ret;
+	}
+
+	/**
+	 * rends une arraylist contenant les ouvriers libres du deck, 4 ouvriers par page
+	 * @param page la page a afficher
+	 * @return une arraylist contenant les cartes a afficher
+	 */
+	public ArrayList<IBuilder> afficherOuvriersLibres(int page) {
+		ArrayList<IBuilder> ret = new ArrayList<IBuilder>();
+		Set<Integer> set = this.getBuilderKeys();
+		Iterator<Integer> it = set.iterator();
+		int seen = 0;
+		while (it.hasNext() && ret.size() < 6) {
+			int current = it.next();
+			if(this.getBuilder(current) != null && !this.getBuilder(current).getEstOccupe()){
+				if(seen >= page * 6 && seen < page * 6 + 6){
+					ret.add(this.getBuilder(current));
+				}
+				seen++;
+			}
+		}
+		return ret;
+	}
+
+	public void resetAllBuildPrices() {
+		for(Integer i : this.getBuildKeys()){
+			this.getBuild(i).resetCoutBatisseur();
+		}
 	}
 }

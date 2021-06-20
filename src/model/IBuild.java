@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * une interface qui représente les actions possible pour un build, y compris une machine
  */
@@ -129,4 +131,6 @@ public interface IBuild {
 	 * @return le gain en ecus du build
 	 */
 	int getEcus();
+
+	ArrayList<IBuilder> getBuilders();
 }

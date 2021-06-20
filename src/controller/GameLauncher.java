@@ -22,44 +22,43 @@ public class GameLauncher {
 		Listener al = new Listener();
 		this.createCards(pile);
 		this.loadConf(pile, currentCards, players);	
-		
-		//TODO l'interface graphique
-
-		//change l'encoding du système en utf-8
-		try{
-			if(System.getProperty("os.name").toLowerCase().startsWith("windows")){
-				ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", "chcp", "65001").inheritIO();
-				Process p = pb.start();
-				p.waitFor();
-			}
-		} catch (Exception e){
-			e.printStackTrace();
-		}
-		
-		try {
-			System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out), true, "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			throw new InternalError("VM does not support mandatory encoding UTF-8");
-		}
 		Scanner sc;
 
-		//   _________  
-		// /|__/   \__|\
-		// \|__\___/__|/
-		//      |/|     
-		//      |/|     
-		//      |/|     
-		//      /.\     
-		//      \_/      
-
-		//      ___      
-		//     /_._\     
-		//     / ° \     
-		//    / / \ \    
-		//   //     \\   
-		//  //       \\  
-		// /           \  
+		
 		if (isTerminal) {
+			//change l'encoding du système en utf-8
+			try{
+				if(System.getProperty("os.name").toLowerCase().startsWith("windows")){
+					ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", "chcp", "65001").inheritIO();
+					Process p = pb.start();
+					p.waitFor();
+				}
+			} catch (Exception e){
+				e.printStackTrace();
+			}
+
+			try {
+				System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out), true, "UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				throw new InternalError("VM does not support mandatory encoding UTF-8");
+			}
+
+			//   _________  
+			// /|__/   \__|\
+			// \|__\___/__|/
+			//      |/|     
+			//      |/|     
+			//      |/|     
+			//      /.\     
+			//      \_/      
+
+			//      ___      
+			//     /_._\     
+			//     / ° \     
+			//    / / \ \    
+			//   //     \\   
+			//  //       \\  
+			// /           \  
 			System.out.println("   _________  " 	+ "   _                 ____        _                                 "			+ "      ___    ");
 			System.out.println(" /|__/   \\__|\\" 	+ "  | |               |  _ \\      | | (_)                            "		+ "     /_._\\   ");
 			System.out.println(" \\|__\\___/__|/" 	+ "  | |     ___  ___  | |_) | __ _| |_ _ ___ ___  ___ _   _ _ __ ___ "			+ "     / ° \\   ");
@@ -95,7 +94,6 @@ public class GameLauncher {
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 					visualInterface = new GraphicalInterface(players,al);
-					System.out.println(visualInterface);
 					launchGame(players,pile,currentCards,visualInterface,isTerminal,sc,al);
 				}
 			});
@@ -107,7 +105,6 @@ public class GameLauncher {
 
 	public void launchGame(ArrayList<Player>players, Deck pile, Deck currentCards, VisualInterface visualInterface, boolean isTerminal, Scanner sc, Listener al){
 		//TODO modifier le currentid
-		System.out.println(visualInterface);
 		this.game = new Game(players, pile, currentCards, visualInterface,isTerminal,0,sc);
 		al.setGame(game);
 		//TODO menu
@@ -117,9 +114,9 @@ public class GameLauncher {
 	public void loadConf(Deck pile, Deck currentCards, ArrayList<Player> players){
 		//TODO implementation du chargement de sauvegarde/configuration
 		players.add(new Player(PlayerType.Human));
-		players.add(new Player(PlayerType.Human));
 		players.add(new Player(PlayerType.Auto));
-		players.add(new Player(PlayerType.None));
+		players.add(new Player(PlayerType.Auto));
+		players.add(new Player(PlayerType.Auto));
 
 		for (int i = 1; i < 7; i++) {
 			currentCards.addBuilder(pile.pickBuilder(i));

@@ -1,4 +1,7 @@
 package model;
+
+import java.util.ArrayList;
+
 /**
  * une machine est une carte qui agit a la fois comme un build et un builder
  */
@@ -191,6 +194,11 @@ public class Machine implements IBuilder, IBuild {
 	@Override
 	public int getEcus() {
 		return this.build.getEcus();
+	}
+
+	@Override
+	public ArrayList<IBuilder> getBuilders() {
+		return this.build.getBuilders();
 	}
 
 }

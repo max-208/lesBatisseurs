@@ -152,13 +152,13 @@ public class LegacyTerminalInterface implements VisualInterface {
     }
 
     @Override
-    public void textReplyPrompt(ArrayList<String> texteAConfirmer) {
+    public void textReplyPrompt(ArrayList<String> texteAConfirmer, int max) {
         System.out.println("/---------------------------------------------------------------------------------------------\\");
         Iterator<String> it = texteAConfirmer.iterator();
         while(it.hasNext()){
             System.out.println("| " +                    String.format("%-91s", it.next())                             + " |");
         }
-        System.out.println("| " +      String.format("%-91s", "Veuillez entrer votre réponse ci-dessous")      + " |");
+        System.out.println("| " +      String.format("%-91s", "Veuillez entrer votre réponse ci-dessous, max : " + max)      + " |");
         System.out.println("\\---------------------------------------------------------------------------------------------/");
     }
 
@@ -218,7 +218,7 @@ public class LegacyTerminalInterface implements VisualInterface {
         String j4L1,j4L2,j4L3,j4L4,j4L5;
         if(j4.getType() != PlayerType.None){
             j4L1 = String.format("%3s ",j4.getEcus()) + "ecus     ";
-            j4L2 = String.format("%3s ",j4.getPointVictoire()) + "p victoire ";
+            j4L2 = String.format("%3s ",j4.getPointVictoire()) + "victoire ";
             j4L3 = String.format("%3s ",j4.getAction()) + "actions  ";
             j4L4 = String.format("%3s ",j4.cards.getNbBuilds())  + "batiments";
             j4L5 = String.format("%3s ",j4.cards.getNbBuilders())  + "ouvriers ";

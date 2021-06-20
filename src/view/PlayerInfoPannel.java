@@ -17,13 +17,9 @@ public class PlayerInfoPannel extends JPanel{
     private JButton F;
     private JButton G;
     private JButton H;
-    private JLabel[] L1;
-    private JLabel[] L2;
-    private JLabel[] L3;
-    private JLabel[] L4;
-    private JLabel[] L5;
+    private JLabel[] L;
     public PlayerInfoPannel(ArrayList<Player> players, Listener al){
-        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.players = players;
         A = new JButton();
         B = new JButton();
@@ -66,57 +62,67 @@ public class PlayerInfoPannel extends JPanel{
         G.setActionCommand("G");
         H.setActionCommand("H");
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.add(Box.createHorizontalGlue());
         buttonPanel.add(A);
+        buttonPanel.add(Box.createHorizontalGlue());
         buttonPanel.add(B);
+        buttonPanel.add(Box.createHorizontalGlue());
         buttonPanel.add(C);
+        buttonPanel.add(Box.createHorizontalGlue());
         buttonPanel.add(D);
+        buttonPanel.add(Box.createHorizontalGlue());
         buttonPanel.add(E);
+        buttonPanel.add(Box.createHorizontalGlue());
         buttonPanel.add(F);
+        buttonPanel.add(Box.createHorizontalGlue());
         buttonPanel.add(G);
+        buttonPanel.add(Box.createHorizontalGlue());
         buttonPanel.add(H);
-        buttonPanel.setMinimumSize(new Dimension(100, 180));
-        buttonPanel.setBackground(Color.ORANGE);
-        this.add(buttonPanel);
-        L1 = new JLabel[4];
-        L2 = new JLabel[4];
-        L3 = new JLabel[4];
-        L4 = new JLabel[4];
-        L5 = new JLabel[4];
+        buttonPanel.add(Box.createHorizontalGlue());
+        L = new JLabel[4];
         for (int i = 0; i < 4; i++) {
-            L1[i] = new JLabel();
-            L2[i] = new JLabel();
-            L3[i] = new JLabel();
-            L4[i] = new JLabel();
-            L5[i] = new JLabel();
+            L[i] = new JLabel();
+            L[i].setOpaque(true);
         }
         this.updatePlayerInfo(0);
+        
+        JPanel playerGeneralPannel = new JPanel();
+        playerGeneralPannel.add(Box.createHorizontalGlue());
+        playerGeneralPannel.setLayout(new BoxLayout(playerGeneralPannel, BoxLayout.X_AXIS));
         for (int i = 0; i < 4; i++) {
-            JPanel playerPannel = new JPanel();
-            playerPannel.setLayout(new BoxLayout(playerPannel, BoxLayout.Y_AXIS));
-            JLabel numj = new JLabel();
-            numj.setText("J" + i);
-            playerPannel.add(numj);
-            playerPannel.add(new JLabel(" "));
-            playerPannel.add(L1[i]);
-            playerPannel.add(L2[i]);
-            playerPannel.add(L3[i]);
-            playerPannel.add(L4[i]);
-            playerPannel.add(L5[i]);
-            playerPannel.setMinimumSize(new Dimension(100, 180));
-            playerPannel.setBackground(Color.ORANGE);
-            this.add(playerPannel);
+            if(this.players.get(i).getType()!=PlayerType.None){
+                JPanel playerPanel = new JPanel();
+                playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
+                JLabel j = new JLabel("J" + (i+1));
+                j.setHorizontalAlignment(SwingConstants.CENTER);
+                playerPanel.add(j);
+                playerPanel.add(L[i]);
+                playerGeneralPannel.add(playerPanel);
+                playerGeneralPannel.add(Box.createHorizontalGlue());
+            }
         }
-
+        this.add(Box.createRigidArea(new Dimension(0,20)));
+        this.add(playerGeneralPannel);
+        this.add(Box.createRigidArea(new Dimension(0,20)));
+        this.add(buttonPanel);
+        this.add(Box.createRigidArea(new Dimension(0,20)));
     }
 
     public void updatePlayerInfo(int current){
         for (int i = 0; i < 4; i++) {
-            L1[i].setText(String.format("%3s ",this.players.get(i).getEcus()) + "ecus     ");
-            L2[i].setText(String.format("%3s ",this.players.get(i).getPointVictoire()) + "victoire ");
-            L3[i].setText(String.format("%3s ",this.players.get(i).getAction())  + "actions  ");
-            L4[i].setText(String.format("%3s ",this.players.get(i).cards.getNbBuilds())  + "batiments");
-            L5[i].setText(String.format("%3s ",this.players.get(i).cards.getNbBuilders())  + "ouvriers ");
+            if(this.players.get(i).getType()!=PlayerType.None){
+                L[i].setText("[ " + String.format("%3s ",this.players.get(i).getEcus()) + "ecus    " + 
+                String.format("%3s ",this.players.get(i).getPointVictoire()) + "victoire    "+
+                String.format("%3s ",this.players.get(i).getAction())  + "actions    "+
+                String.format("%3s ",this.players.get(i).cards.getNbBuilds())  + "batiments    "+
+                String.format("%3s ",this.players.get(i).cards.getNbBuilders())  + "ouvriers ]");
+                if(i == current){
+                    L[i].setBackground(Color.ORANGE);
+                } else {
+                    L[i].setBackground(null);
+                }
+            }
         }
     }
 }
