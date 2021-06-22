@@ -9,6 +9,7 @@
 
 ces commandes sont a effectuer dans le fichier contenant ce readme.txt
 ce programme a été compilé en java 16 : https://www.oracle.com/java/technologies/javase-jdk16-downloads.html
+il est cependant compatible jusqu'a java 11 : https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
 
 ╭─────────────────────────────────────────────────────────────────────────────────────────────╮
 |                                                                                             |

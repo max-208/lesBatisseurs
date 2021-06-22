@@ -46,11 +46,11 @@ public class TestDeck{
     @Test()
         public void testAddGetPickMachine(){
             Machine m1 = new Machine(0,"moulin",1,1,1,1,1,1,1,1,1);
-            assertTrue(d.addBuilder(m1));
-            assertEquals(d.getBuilder(0),m1);
+            assertTrue(d.addBuild(m1));
+            assertEquals(d.getBuilder(0),null);
             assertEquals(d.getBuild(0),m1);
             assertEquals(d.getMachine(0),m1);
-            assertEquals(d.pickBuilder(0),m1);
+            assertEquals(d.pickBuild(0),m1);
             assertNull(d.getBuilder(0));
             assertNull(d.getBuild(0));
             assertNull(d.getMachine(0));

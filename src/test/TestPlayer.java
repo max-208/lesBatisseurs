@@ -60,6 +60,6 @@ public class TestPlayer {
         assertTrue(p.envoyerTravailler(p.cards.getBuild(1), p.cards.getBuilder(1)));
         assertEquals(p.getAction(), 1);
         assertEquals(p.getPointVictoire(), 2);
-        assertEquals(p.getEcus(), 13);
+        assertEquals(p.getEcus(), 8);
     }
 }
