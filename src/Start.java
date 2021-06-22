@@ -1,5 +1,8 @@
 import controller.GameLauncher;
 
+/**
+ * l'entrée du programme
+ */
 public class Start {
 
 	/**

@@ -60,10 +60,18 @@ public class Deck {
 		return ret;
 	}
 
+	/**
+	 * retourne un set des index des builder présents dans ce deck
+	 * @return un set des index des builder présents dans ce deck
+	 */
 	public Set<Integer> getBuilderKeys(){
 		return this.builders.keySet();
 	}
 
+	/**
+	 * retourne un builder aléatoire du deck, en le retirant du deck
+	 * @return un builder aléatoire du deck, en le retirant du deck
+	 */
 	public IBuilder pickRandomBuilder(){
 		IBuilder ret = null;
 		if(this.builders.size()>0){
@@ -169,10 +177,18 @@ public class Deck {
 		return ret;
 	}
 
+	/**
+	 * retourne un set des build du deck
+	 * @return un set des build du deck
+	 */
 	public Set<Integer> getBuildKeys(){
 		return this.builds.keySet();
 	}
 
+	/**
+	 * retourne un build aléatoire, en le retirant du deck
+	 * @return un build aléatoire, en le retirant du deck
+	 */
 	public IBuild pickRandomBuild(){
 		IBuild ret = null;
 		if(this.builders.size()>0){
@@ -182,10 +198,18 @@ public class Deck {
 		}
 		return ret;
 	}
+	/**
+	 * retourne le nombre de build du deck
+	 * @return le nombre de build du deck
+	 */
 	public int getNbBuilds(){
 		return this.builds.size();
 	}
 
+	/**
+	 * retourne le nombre de builder du deck
+	 * @return le nombre de builder du deck
+	 */
 	public int getNbBuilders(){
 		return this.builders.size();
 	}
@@ -279,6 +303,9 @@ public class Deck {
 		return ret;
 	}
 
+	/**
+	 * reinitialise le prix en action de chaque build du deck
+	 */
 	public void resetAllBuildPrices() {
 		for(Integer i : this.getBuildKeys()){
 			this.getBuild(i).resetCoutBatisseur();

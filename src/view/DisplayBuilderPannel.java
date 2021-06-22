@@ -1,27 +1,60 @@
 package view;
 
-import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import model.*;
 import controller.Listener;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * le panel qui affiche les batiments
+ */
 public class DisplayBuilderPannel extends JPanel {
+    /**
+     * la liste des batiments affichés
+     */
     ArrayList<IBuilder> builders;
+    /**
+     * le listener responsable des actions
+     */
     Listener al;
+    /**
+     * un bouton pour changer de page
+     */
     JButton L;
+    /**
+     * un bouton pour changer de page
+     */
     JButton R;
+    /**
+     * un bouton affichant une carte
+     */
     JButton B1;
+    /**
+     * un bouton affichant une carte
+     */
     JButton B2;
+    /**
+     * un bouton affichant une carte
+     */
     JButton B3;
+    /**
+     * un bouton affichant une carte
+     */
     JButton B4;
+    /**
+     * un bouton affichant une carte
+     */
     JButton B5;
+    /**
+     * un bouton affichant une carte
+     */
     JButton B6;
-;
+
+    /**
+     * le constructeur de displaybuild
+     * @param al le listener
+     */
     public DisplayBuilderPannel(Listener al){
         this.builders = new ArrayList<IBuilder>();
         this.al = al;
@@ -87,6 +120,10 @@ public class DisplayBuilderPannel extends JPanel {
 
     }
 
+    /**
+     * met a jour l'affichage des cartes
+     * @param builders les builders a afficher
+     */
     public void update(ArrayList<IBuilder> builders){
         int[] list = new int[6];
         for (int i = 0; i < 6; i++) {

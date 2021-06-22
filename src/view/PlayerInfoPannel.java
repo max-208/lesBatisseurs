@@ -1,23 +1,61 @@
 package view;
 
 import javax.swing.*;
-
 import controller.Listener;
 import java.awt.*;
 import java.util.*;
 import model.*;
 
+/**
+ * affiche les infos sur le joueur
+ */
 public class PlayerInfoPannel extends JPanel{
+    /**
+     * la liste des joueurs
+     */
     private ArrayList<Player> players;
+    /**
+     * un boutton d'action
+     */
     private JButton A;
+    /**
+     * un boutton d'action
+     */
     private JButton B;
+    /**
+     * un boutton d'action
+     */
     private JButton C;
+    /**
+     * un boutton d'action
+     */
     private JButton D;
+    /**
+     * un boutton d'action
+     */
     private JButton E;
+    /**
+     * un boutton d'action
+     */
     private JButton F;
+    /**
+     * un boutton d'action
+     */
     private JButton G;
+    /**
+     * un boutton d'action
+     */
     private JButton H;
+    /**
+     * la liste des labels des joueurs
+     */
     private JLabel[] L;
+
+    /**
+     * le constructeur de PlayerInfoPannel
+     * @param players la liste des joueurs
+     * @param al le listener
+     */
     public PlayerInfoPannel(ArrayList<Player> players, Listener al){
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.players = players;
@@ -91,17 +129,16 @@ public class PlayerInfoPannel extends JPanel{
         playerGeneralPannel.add(Box.createHorizontalGlue());
         playerGeneralPannel.setLayout(new BoxLayout(playerGeneralPannel, BoxLayout.X_AXIS));
         for (int i = 0; i < 4; i++) {
-            if(this.players.get(i).getType()!=PlayerType.None){
-                JPanel playerPanel = new JPanel();
-                playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
-                JLabel j = new JLabel("J" + (i+1));
-                j.setHorizontalAlignment(SwingConstants.CENTER);
-                playerPanel.add(j);
-                playerPanel.add(L[i]);
-                playerGeneralPannel.add(playerPanel);
-                playerGeneralPannel.add(Box.createHorizontalGlue());
-            }
+            JPanel playerPanel = new JPanel();
+            playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
+            JLabel j = new JLabel("J" + (i+1));
+            j.setHorizontalAlignment(SwingConstants.CENTER);
+            playerPanel.add(j);
+            playerPanel.add(L[i]);
+            playerGeneralPannel.add(playerPanel);
+            playerGeneralPannel.add(Box.createHorizontalGlue());
         }
+        
         this.add(Box.createRigidArea(new Dimension(0,20)));
         this.add(playerGeneralPannel);
         this.add(Box.createRigidArea(new Dimension(0,20)));
@@ -109,18 +146,24 @@ public class PlayerInfoPannel extends JPanel{
         this.add(Box.createRigidArea(new Dimension(0,20)));
     }
 
+    /**
+     * met a jour les infos du joueur
+     * @param current le joueur actuel
+     */
     public void updatePlayerInfo(int current){
-        for (int i = 0; i < 4; i++) {
-            if(this.players.get(i).getType()!=PlayerType.None){
-                L[i].setText("[ " + String.format("%3s ",this.players.get(i).getEcus()) + "ecus    " + 
-                String.format("%3s ",this.players.get(i).getPointVictoire()) + "victoire    "+
-                String.format("%3s ",this.players.get(i).getAction())  + "actions    "+
-                String.format("%3s ",this.players.get(i).cards.getNbBuilds())  + "batiments    "+
-                String.format("%3s ",this.players.get(i).cards.getNbBuilders())  + "ouvriers ]");
-                if(i == current){
-                    L[i].setBackground(Color.ORANGE);
-                } else {
-                    L[i].setBackground(null);
+        if(this.players.size()>0){
+            for (int i = 0; i < 4; i++) {
+                if(this.players.get(i).getType()!=PlayerType.None){
+                    L[i].setText("[ " + String.format("%3s ",this.players.get(i).getEcus()) + "ecus    " + 
+                    String.format("%3s ",this.players.get(i).getPointVictoire()) + "victoire    "+
+                    String.format("%3s ",this.players.get(i).getAction())  + "actions    "+
+                    String.format("%3s ",this.players.get(i).cards.getNbBuilds())  + "batiments    "+
+                    String.format("%3s ",this.players.get(i).cards.getNbBuilders())  + "ouvriers ]");
+                    if(i == current){
+                        L[i].setBackground(Color.ORANGE);
+                    } else {
+                        L[i].setBackground(null);
+                    }
                 }
             }
         }

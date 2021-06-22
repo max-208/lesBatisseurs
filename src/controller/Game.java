@@ -5,22 +5,76 @@ import model.*;
 import view.*;
 import java.io.*;
 
+/**
+ * le coeur de la logique du jeu : recuperer les actions du joueur, agis sur le modele et gere l'affichage
+ */
 public class Game {
 
+	/**
+	 * la liste des joueurs en jeu
+	 */
 	private ArrayList<Player> players;
+	/**
+	 * la pile de carte
+	 */
 	private Deck pile;
+	/**
+	 * les cartes actuellement affichées dans lequelles les joueurs peuvent piocher
+	 */
 	private Deck currentCards;
+	/**
+	 * le joueur actuel
+	 */
 	private Player current;
+	/**
+	 * l'id du joueur actuel (de 0 a 3)
+	 */
 	private int currentId;
+	/**
+	 * l'interface visuelle sur laquelle l'on doit agir
+	 */
 	private VisualInterface visualInterface;
+	/**
+	 * l'interface visuelle est est un terminal ?
+	 */
 	private boolean isTerminal;
+	/**
+	 * l'action en cours
+	 */
 	private String currentAction;
+	/**
+	 * le paramètre de l'action en cours (la page ouverte)
+	 */
 	private int currentActionParam;
+	/**
+	 * le batiment de l'action en court
+	 */
 	private IBuild currentActionBuild;
+	/**
+	 * le builder de l'action en cours
+	 */
 	private IBuilder currentActionBuilder;
+	/**
+	 * le scanner permettant de récuperer les actions du joueur
+	 */
 	private Scanner sc;
+	/**
+	 * l'index de la sauvegarde a faire
+	 */
+	private int savefile;
 
-	public Game(ArrayList<Player> players,Deck pile,Deck currentCards,VisualInterface visualInterface, boolean isTerminal, int currentId, Scanner sc){
+	/**
+	 * le constructeur de game
+	 * @param players la liste des joueurs en jeu
+	 * @param pile la pile de carte
+	 * @param currentCards les cartes actuellement affichées dans lequelles les joueurs peuvent piocher
+	 * @param visualInterface l'interface visuelle sur laquelle l'on doit agir
+	 * @param isTerminal l'interface visuelle est est un terminal ?
+	 * @param currentId l'id du joueur actuel (de 0 a 3)
+	 * @param sc le scanner permettant de récuperer les actions du joueur
+	 * @param savefile l'index de la sauvegarde a faire
+	 */
+	public Game(ArrayList<Player> players,Deck pile,Deck currentCards,VisualInterface visualInterface, boolean isTerminal, int currentId, Scanner sc,int savefile){
 		this.players = players;
 		this.pile = pile;
 		this.currentCards= currentCards;
@@ -29,12 +83,16 @@ public class Game {
 		this.current = this.players.get(this.currentId);
 		this.isTerminal = isTerminal;
 		this.sc = sc;
+		this.savefile = savefile;
 		this.currentAction = "";
 		this.currentActionParam = 0;
 		this.currentActionBuild = null;
 		this.currentActionBuilder = null;
 	}
 
+	/**
+	 * change le joueur actuel, donne au nouveau joueur ses points de mouvement et lance l'ia si necessaire
+	 */
 	public void changeCurrentPlayer() {
 		if(current.getPointVictoire() >= 17){
 			this.stop();
@@ -58,12 +116,15 @@ public class Game {
 		}
 	}
 
+	/**
+	 * lance les actions de l'ia
+	 */
 	public void autoplay() {
 		//TODO implementer une meilleure ia
 		Random r = new Random();
 		int rng;
-		System.out.println("nb batiment chantier/total : " + this.current.cards.afficherBatimentChantier(0).size() + " / " +  this.current.cards.getNbBuilds() );
-		System.out.println("nb batisseurs libres/total : " + this.current.cards.afficherOuvriersLibres(0).size() + " / " +  this.current.cards.getNbBuilders() );
+		//System.out.println("nb batiment chantier/total : " + this.current.cards.afficherBatimentChantier(0).size() + " / " +  this.current.cards.getNbBuilds() );
+		//System.out.println("nb batisseurs libres/total : " + this.current.cards.afficherOuvriersLibres(0).size() + " / " +  this.current.cards.getNbBuilders() );
 		try{
 			//int[4] buildFocus = new int[4];
 			while(this.current.getAction()>0){
@@ -103,7 +164,11 @@ public class Game {
 		this.makeAction("H");
 	}
 
+	/**
+	 * lance la partie
+	 */
 	public void start() {
+		this.saveState();
 		if(this.isTerminal){
 			boolean finPartie = false;
 			ArrayList<String> t = new ArrayList<String>();
@@ -163,17 +228,21 @@ public class Game {
 		}
 	}
 
+	/**
+	 * performe une action du joueur
+	 * @param input l'action a effectuer
+	 */
 	public void makeAction(String input){
-		HashMap<String,String> hash = new HashMap<String,String>();
-		hash.put("A","afficher ouvriers ");
-		hash.put("B","afficher batiments");
-		hash.put("C","ouvrir chantier   ");
-		hash.put("D","recruter ouvrier  ");
-		hash.put("E","envoyer travailler");
-		hash.put("F","action -> ecu     ");
-		hash.put("G","ecu -> action     ");
-		hash.put("H","fin de tour       ");
-		System.out.println(input + " - " + hash.get(input));
+		//HashMap<String,String> hash = new HashMap<String,String>();
+		//hash.put("A","afficher ouvriers ");
+		//hash.put("B","afficher batiments");
+		//hash.put("C","ouvrir chantier   ");
+		//hash.put("D","recruter ouvrier  ");
+		//hash.put("E","envoyer travailler");
+		//hash.put("F","action -> ecu     ");
+		//hash.put("G","ecu -> action     ");
+		//hash.put("H","fin de tour       ");
+		//System.out.println(input + " - " + hash.get(input));
 		ArrayList<String> t = new ArrayList<String>();
 		if(input != null){
 			switch (input) {
@@ -572,13 +641,20 @@ public class Game {
 		
 	}
 
+	/** 
+	 * fin du jeu
+	 */
 	public void stop() {
 		// TODO Auto-generated method stub
+		System.out.println("la partie est finie mais j'a pas implémenté de fin de game :(");
 	}
 
+	/**
+	 * sauvegarde l'etat actuel
+	 */
 	public void saveState(){
 		try{
-			FileWriter w = new FileWriter("data/save/save.sav");
+			FileWriter w = new FileWriter("data/save/save" + this.savefile + ".sav");
         	BufferedWriter b = new BufferedWriter(w);
         	PrintWriter out = new PrintWriter(b);
 
@@ -586,13 +662,7 @@ public class Game {
 			String s="";
 			for (int i = 0; i < 4; i++) {
 				s = s + ":";
-				if(players.get(i).getType() == PlayerType.Human){
-					s = s+"H";
-				}else if(players.get(i).getType() == PlayerType.Auto){
-					s = s+"A";
-				} else {
-					s = s+"N";
-				}
+				s = s+players.get(i).getType();
 			}
 			if(s.length()>0){
 				s = s.substring(1);

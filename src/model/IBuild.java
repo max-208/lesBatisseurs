@@ -93,7 +93,7 @@ public interface IBuild {
 
 	/**
 	 * ajoute un builder au chantier
-	 * @param builder
+	 * @param builder le builder a ajouter
 	 * @return true si le builder a pu etre ajouté
 	 */
 	boolean addBuilder(IBuilder builder);
@@ -132,5 +132,9 @@ public interface IBuild {
 	 */
 	int getEcus();
 
+	/**
+	 * retourne une arraylist des builders travaillant sur ce build
+	 * @return une arraylist des builders travaillant sur ce build
+	 */
 	ArrayList<IBuilder> getBuilders();
 }

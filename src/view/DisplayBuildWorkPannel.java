@@ -3,15 +3,24 @@ package view;
 import model.IBuild;
 import model.IBuilder;
 import controller.Listener;
-
 import javax.imageio.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
 
+/**
+ * permet l'affichage detaillé des build, pour observer leur completion
+ */
 public class DisplayBuildWorkPannel extends JPanel {
+    /**
+     * le boutton contenant l'image du build
+     */
     private JButton buildImage;
+    /**
+     * crées le DisplayBuildWorkPannel
+     * @param al le listener qui reagis au actions
+     */
     public DisplayBuildWorkPannel(Listener al){
         this.setOpaque(false);
         this.buildImage = new JButton();
@@ -25,6 +34,10 @@ public class DisplayBuildWorkPannel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         this.add(buildImage);
     }
+    /**
+     * met a jour la carte
+     * @param build la carte a afficher
+     */
     public void updateBuilder(IBuild build){
         if(build != null){
             this.removeAll();

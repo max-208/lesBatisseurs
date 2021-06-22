@@ -4,8 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
+/**
+ * un message informatif en bas de la page
+ */
 public class PromptPanel extends JPanel{
+    /**
+     * le texte
+     */
     private JLabel text;
+    /**
+     * le constructeur de PromptPanel
+     */
     public PromptPanel(){
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         this.text = new JLabel();
@@ -22,6 +31,10 @@ public class PromptPanel extends JPanel{
         this.add(Box.createHorizontalGlue());
     }
 
+    /**
+     * mettre a jour le texte
+     * @param text nouveau texte
+     */
     public void update(ArrayList<String> text){
         this.text.setText(String.join("\n", text));
     }

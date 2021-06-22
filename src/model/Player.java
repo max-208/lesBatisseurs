@@ -95,9 +95,9 @@ public class Player {
 	}
 
 	/**
-	 * ouvres un chantier dans un batiment
-	 * @param build le batiment a transformer en chantier
-	 * @return true si le chantier a pu etre construit, false si le batiment n'appartiens pas au joueur ou est deja un chantier ou est terminé
+	 * recrutes un ouvrier
+	 * @param builder l'ouvrier a recruter
+	 * @return true si l'ouvrier a pu etre recruté, false sinon
 	 */
 	public boolean recruterOuvrier(IBuilder builder) {
 		this.action = this.action - 1;
@@ -168,4 +168,19 @@ public class Player {
 		return ret;
 	}
 
+	/**
+	 * definis le nombre d'ecus du joueur
+	 * @param ecus le nouveau nombre d'ecus du joueur
+	 */
+	public void setEcus(int ecus){
+		this.ecus = ecus;
+	}
+
+	/**
+	 * definis le nombre de point de victoire du joueur
+	 * @param victoire le nouveau nombre de point de victoire du joueur
+	 */
+	public void setVictoire(int victoire){
+		this.pointVictoire = victoire;
+	}
 }

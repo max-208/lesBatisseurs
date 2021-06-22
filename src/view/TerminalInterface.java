@@ -3,10 +3,20 @@ package view;
 import java.util.*;
 import model.*;
 
+/**
+ * l'interface terminale pour les terminals modernes
+ */
 public class TerminalInterface implements VisualInterface {
 
+    /**
+     * la liste des joueurs
+     */
     private ArrayList<Player> joueurs;
 
+    /**
+     * le constructeur de TerminalInterface
+     * @param joueurs la liste des joueurs
+     */
     public TerminalInterface(ArrayList<Player> joueurs){
         this.joueurs = joueurs;
     }  
@@ -290,6 +300,72 @@ public class TerminalInterface implements VisualInterface {
         System.out.println("|                                                                                             |");
         System.out.println("|                                                                                             |");
         System.out.println("╰─────────────────────────────────────────────────────────────────────────────────────────────╯");
+    }
+
+    @Override
+    public void menu() {
+        System.out.println("╭─────────────────────────────────────────────────────────────────────────────────────────────╮");
+        System.out.println("| ╭─────────────────────────────────────────────────────────────────────────────────────────╮ |");
+        System.out.println("| |                                                                                         | |");
+        System.out.println("| |                                   [N] Nouvelle Partie                                   | |");
+        System.out.println("| |                                                                                         | |");
+        System.out.println("| ╰─────────────────────────────────────────────────────────────────────────────────────────╯ |");
+        System.out.println("| ╭─────────────────────────────────────────────────────────────────────────────────────────╮ |");
+        System.out.println("| |                                                                                         | |");
+        System.out.println("| |                                    [C] Charger partie                                   | |");
+        System.out.println("| |                                                                                         | |");
+        System.out.println("| ╰─────────────────────────────────────────────────────────────────────────────────────────╯ |");
+        System.out.println("| ╭─────────────────────────────────────────────────────────────────────────────────────────╮ |");
+        System.out.println("| |                                                                                         | |");
+        System.out.println("| |                                        [R] Regles                                       | |");
+        System.out.println("| |                                                                                         | |");
+        System.out.println("| ╰─────────────────────────────────────────────────────────────────────────────────────────╯ |");
+        System.out.println("╰─────────────────────────────────────────────────────────────────────────────────────────────╯");
+        
+    }
+
+    @Override
+    public void saveSelect() {
+        System.out.println("╭─────────────────────────────────────────────────────────────────────────────────────────────╮");
+        System.out.println("| [ B retour au menu ]                                                                        |");
+        System.out.println("| ╭───────────────────────────────────────────╮ ╭───────────────────────────────────────────╮ |");
+        System.out.println("| |                                           | |                                           | |");
+        System.out.println("| |             [1]  sauvegarde 1             | |             [2]  sauvegarde 2             | |");
+        System.out.println("| |                                           | |                                           | |");
+        System.out.println("| ╰───────────────────────────────────────────╯ ╰───────────────────────────────────────────╯ |");
+        System.out.println("| ╭───────────────────────────────────────────╮ ╭───────────────────────────────────────────╮ |");
+        System.out.println("| |                                           | |                                           | |");
+        System.out.println("| |             [3]  sauvegarde 3             | |             [4]  sauvegarde 4             | |");
+        System.out.println("| |                                           | |                                           | |");
+        System.out.println("| ╰───────────────────────────────────────────╯ ╰───────────────────────────────────────────╯ |");
+        System.out.println("| ╭───────────────────────────────────────────╮ ╭───────────────────────────────────────────╮ |");
+        System.out.println("| |                                           | |                                           | |");
+        System.out.println("| |             [5]  sauvegarde 5             | |             [6]  sauvegarde 6             | |");
+        System.out.println("| |                                           | |                                           | |");
+        System.out.println("| ╰───────────────────────────────────────────╯ ╰───────────────────────────────────────────╯ |");
+        System.out.println("╰─────────────────────────────────────────────────────────────────────────────────────────────╯");
+        
+    }
+
+    @Override
+    public void regles() {
+        System.out.println("╭─────────────────────────────────────────────────────────────────────────────────────────────╮");
+        System.out.println("| [ B retour au menu ]                                                                        |");
+        System.out.println("|                                                                                             |");
+        System.out.println("|                                                                                             |");
+        System.out.println("|                                                                                             |");
+        System.out.println("|                                                                                             |");
+        System.out.println("|                                                                                             |");
+        System.out.println("|                                        da rules                                             |");
+        System.out.println("|                                                                                             |");
+        System.out.println("|                                                                                             |");
+        System.out.println("|                                                                                             |");
+        System.out.println("|                                                                                             |");
+        System.out.println("|                                                                                             |");
+        System.out.println("|                                                                                             |");
+        System.out.println("|                                                                                             |");
+        System.out.println("╰─────────────────────────────────────────────────────────────────────────────────────────────╯");
+        
     }
 
 }

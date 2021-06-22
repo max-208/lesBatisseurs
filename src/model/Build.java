@@ -209,7 +209,6 @@ public class Build implements IBuild {
 	public void removeAllBuilders() {
 		for(IBuilder builder : this.builders){
 			builder.setEstOccupe(false);
-			System.out.println(builder +" - "+ builder.getEstOccupe());
 		}
 		this.builders = new ArrayList<IBuilder>();
 	}

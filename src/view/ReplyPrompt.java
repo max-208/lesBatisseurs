@@ -6,14 +6,31 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import controller.Listener;
-
+/**
+ * panel qui demande une reponse
+ */
 public class ReplyPrompt extends JPanel {
+    /**
+     * la question
+     */
     private JLabel label;
+    /**
+     * le slider pour selectionner la reponse
+     */
     private JSlider slider;
+    /**
+     * le boutton pour confirmer
+     */
     private JButton confirm;
+    /**
+     * le listener pour reagir au actions
+     */
     private Listener al;
+    /**
+     * le constructeur de ReplyPrompt
+     * @param al le listener
+     */
     public ReplyPrompt(Listener al){
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         this.al = al;
@@ -55,10 +72,16 @@ public class ReplyPrompt extends JPanel {
         panel.setOpaque(false);
         panel2.setOpaque(true);
 
-        this.add(Box.createRigidArea(new Dimension(300,0)));
+        this.add(Box.createRigidArea(new Dimension(500,0)));
         this.add(panel);
-        this.add(Box.createRigidArea(new Dimension(300,0)));
+        this.add(Box.createRigidArea(new Dimension(500,0)));
     }
+
+    /**
+     * met a jour le texte
+     * @param text le nouveau texte
+     * @param max la valeur max
+     */
     public void update(ArrayList<String> text,int max){
         this.slider.setValue(0);
         this.slider.setMaximum(max);

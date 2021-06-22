@@ -46,7 +46,7 @@ public class Builder implements IBuilder {
 	 * @param prodPierre la production en pierre du builder
 	 * @param prodBois la production en bois du builder
 	 * @param prodSavoir la production en savoir du builder
-	 * @param prodTuille la production en tuile du builder
+	 * @param prodTuile la production en tuile du builder
 	 */
 	public Builder(int id,int prix, BuilderType type, int prodPierre, int prodBois, int prodSavoir, int prodTuile) {
 		this.id = id;

@@ -1,22 +1,40 @@
 package view;
 
-import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import model.*;
 import controller.Listener;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * affiche les builds
+ */
 public class DisplayBuildPannel extends JPanel {
+    /**
+     * les builds a afficher
+     */
     private ArrayList<IBuild> builds;
+    /**
+     * le listener pour les interactions utilisateurs
+     */
     private Listener al;
+    /**
+     * le boutton pour afficher plus de cartes
+     */
     private JButton L;
+    /**
+     * le boutton pour afficher plus de cartes
+     */
     private JButton R;
+    /**
+     * les builds affichés
+     */
     private DisplayBuildWorkPannel[] B;
 
+    /**
+     * le constructeur de DisplayBuildPannel
+     * @param al le listener
+     */
     public DisplayBuildPannel(Listener al){
         this.builds = new ArrayList<IBuild>();
         this.al = al;
@@ -80,6 +98,10 @@ public class DisplayBuildPannel extends JPanel {
 
     }
 
+    /**
+     * met a jour les builds a afficher
+     * @param builds les builds a afficher
+     */
     public void update(ArrayList<IBuild> builds){
         this.builds = builds;
         for (int i = 0; i < 6; i++) {

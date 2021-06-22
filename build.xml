@@ -24,17 +24,19 @@
         <mkdir dir="${lib}"/>
     </target>
 
-    <target name="compile" depends="init" description="compile the source ">
-        <javac srcdir="${src}" destdir="${class}" includeantruntime="false" encoding="UTF-8">
+    <target name="compile" depends="init" description="compile the source " >
+        <javac srcdir="${src}" destdir="${class}" includeantruntime="false" encoding="UTF-8" target="11" source ="11">
             <exclude name="test/**"/>
         </javac>
     </target>
 
     <target name="jar" depends="compile" description="generate the distribution" >
-        <jar jarfile="${jar}/${jarName}.jar" basedir="${class}" encoding="UTF-8">
+        <jar destfile="${jar}/${jarName}.jar" encoding="UTF-8">
             <manifest>
                 <attribute name="Main-Class" value="${mainClass}"/>
             </manifest>
+            <fileset dir="${class}"/>
+            <fileset dir="data"/>
         </jar>
     </target>
 
@@ -61,6 +63,7 @@
                  private="true"
                  destdir="${javadoc}">
             <fileset dir="${src}">
+                <exclude name="test/**"/>
                 <include name="**"/>
             </fileset>
         </javadoc>
